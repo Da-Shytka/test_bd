@@ -26,8 +26,8 @@ class FilmService {
         
         const genreIds = Array.isArray(genre) ? genre : [genre]; // Обработка массива жанров
         for (const genreId of genreIds) {
-            console.log(filmId)
-            console.log(genre)
+            // console.log(filmId)
+            // console.log(genre)
             await FilmRepositorie.createFilmGenre({ filmId, genreId }); // Добавлено: Создание связи между фильмом и жанром
         }
         return filmId;

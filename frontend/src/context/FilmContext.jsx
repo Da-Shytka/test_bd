@@ -17,8 +17,8 @@ const FilmProvider = ({ children }) => {
     FilmClient.post("/films", filmData)
       .then((response) => {
         const idFilm = response.data.idFilm;
-        console.log("idFilm:", idFilm);
-        console.log("filmData:", filmData);
+        // console.log("idFilm:", idFilm);
+        // console.log("filmData:", filmData);
         // Получить idFilm из ответа сервера
         // const idFilm = data.idFilm; // Проверяем, как извлекается idFilm
         // console.log("idFilm:", idFilm); // Проверяем idFilm
