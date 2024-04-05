@@ -4,6 +4,7 @@ import { FilmContext } from "../context/FilmContext";
 import { useNavigate } from "react-router-dom";
 
 const FilmPage = () => {
+  // Состояния для хранения данных о фильме
   const [nameFilm, setNameFilm] = useState('');
   const [yearFilm, setYearFilm] = useState('');
   const [countryFilm, setCountryFilm] = useState('');
@@ -15,34 +16,31 @@ const FilmPage = () => {
   const [hasTranslationFilm, setHasTranslationFilm] = useState(false);
   const [seeFilm] = useState(true);
 
+  // Хук для перехода на другую страницу
   const navigate = useNavigate();
-  const { handleFilm } = useContext(FilmContext);
+
+  // Контекст для обмена данными о фильмах и жанрах
+  const { handleFilm, handleGenreInfo, data } = useContext(FilmContext);
+  
+  // Хук для управления формой
   const { handleSubmit } = useForm();
-  const onSubmit = async (event) => {
-    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm });
-    navigate(`/`);
-    //console.log( nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm );
-    //console.log('Данные для сохранения:', { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm });
-  };
 
-
+  // Состояние для выбранных жанров
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const { handleGenreInfo, data } = useContext(FilmContext);
+
+  // Эффект для получения информации о жанрах
   useEffect(() => {
     const fetchData = async () => {
       try {
         await handleGenreInfo();
-        // console.log(data)
-        // setData(data);
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }
     };
-
     fetchData();
-  }, []);
+  }, [handleGenreInfo]);
 
-
+  // Функция для обновления выбранных жанров
   const handleGenreChange = (genre) => {
     const index = selectedGenres.indexOf(genre);
     if (index === -1) {
@@ -54,6 +52,14 @@ const FilmPage = () => {
     }
   };
 
+  // Функция вызывается при отправке формы
+  const onSubmit = async (event) => {
+    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm }, selectedGenres);
+    //console.log(selectedGenres)
+    navigate(`/`);
+    //console.log( nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm );
+    // console.log('Данные для сохранения:', { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, selectedGenres  });
+  };
 
   return (
     <>
@@ -108,8 +114,8 @@ const FilmPage = () => {
           Жанры:
         </label>
         <br />
-        {data && data.map(item => (
-          <label key={item.name}>
+        {data && data.map((item, index) => (
+          <label key={`${item.name}-${index}`}>
             <input
               type="checkbox"
               value={item.name}

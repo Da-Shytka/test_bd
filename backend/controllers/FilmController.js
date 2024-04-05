@@ -6,21 +6,12 @@ class FilmController {
   static async film (req, res) {
     const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm } = req.body;
     // console.log(req.body)
-
     try {
       // console.log("name_film:", nameFilm);
-      // console.log("year_film:", yearFilm);
-      // console.log("country_film:", countryFilm);
-      // console.log("viewing_date_film:", viewingDateFilm);
-      // console.log("rating_film:", ratingFilm);
-      // console.log("evaluation_film:", evaluationFilm);
-      // console.log("duration_film:", durationFilm);
-      // console.log("age_restriction_film:", ageRestrictionFilm);
-      // console.log("has_translation_film:", hasTranslationFilm);
       await FilmService.film ({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm });
       return res.status(200).send('User details updated successfully.');
     } catch (err) {
-      // console.error(err);
+      console.error(err);
       return ErrorUtils.catchError(res, err);
     }
   }
@@ -43,11 +34,9 @@ class FilmController {
   static async getGenreInfo(req, res) {
     try {
       const userData = await FilmService.getGenreInfo();
-      // console.log(userData);
       if (!userData) {
         return res.sendStatus(404);
       }
-      // console.log(userData);
       return res.json(userData);
     } catch (err) {
       console.error(err);
@@ -55,6 +44,18 @@ class FilmController {
     }
   }
 
+  static async filmGenre(req, res) {
+    const { genre } = req.body; // Добавлено: Получение idFilm из запроса
+    console.log(req.body);
+    try {
+        console.log("genre:", genre); // Добавлено: Вывод idFilm в консоль
+        await FilmService.filmGenre({ genre }); // Исправлено: Передача идентификатора фильма и жанра
+        return res.status(200).send('Film genre updated successfully.'); // Изменено: Сообщение об успешном обновлении
+    } catch (err) {
+        console.error(err);
+        return ErrorUtils.catchError(res, err);
+    }
+  }
 }
 
 module.exports = FilmController;

@@ -14,9 +14,17 @@ class FilmService {
 
     static async getGenreInfo() {
         const genres = await FilmRepositorie.getGenreInfo();
-        // console.log(films);
         return genres;
     }
+
+    static async filmGenre({ genre, filmId }) { // Добавлено: filmId для указания конкретного фильма
+        const genreIds = Array.isArray(genre) ? genre : [genre]; // Обработка массива жанров
+        for (const genreId of genreIds) {
+            await FilmRepositorie.createFilmGenre({ filmId, genreId }); // Добавлено: Создание связи между фильмом и жанром
+        }
+        return filmId;
+    }
+
 }
 
 module.exports = FilmService;

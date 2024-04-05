@@ -24,6 +24,11 @@ class FilmRepositorie {
     return response.rows;
   }
   
+  static async createFilmGenre({ filmId, genreId }) {
+    const response = await pool.query("INSERT INTO film_genre (id_film, id_genre) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+      [filmId, genreId]);
+    return response.rows;
+  }
 
 }
 
