@@ -5,18 +5,15 @@ import config from "../config";
 const FilmClient = axios.create({
   baseURL: `${config.API_URL}/films`,
   withCredentials: true,
-  // headers: {
-  //   'Content-Type': 'application/json'
-  // }
 });
 
 export const FilmContext = createContext({});
 
 const FilmProvider = ({ children }) => {
-  const [data] = useState();
+  const [data, setData] = useState();
   const [isFilm, setIsFilm] = useState(false);
 
-  const handleSignUp = (data) => {
+  const handleFilm = (data) => {
     FilmClient.post("/films", data) 
     .then(() => {
       setIsFilm(true);
@@ -25,6 +22,26 @@ const FilmProvider = ({ children }) => {
       console.error(error);
     });
   };
+
+  const handleFilmInfo = () => {
+    FilmClient.get("/collection")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleGenreInfo = () => {
+    FilmClient.get("/films")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
  
 
   return (
@@ -32,7 +49,9 @@ const FilmProvider = ({ children }) => {
         value={{
           data,
           isFilm,
-          handleSignUp
+          handleFilmInfo,
+          handleGenreInfo,
+          handleFilm
         }}
       >
         {children}

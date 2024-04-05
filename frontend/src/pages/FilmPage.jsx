@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import { useForm } from "react-hook-form";
 import { FilmContext } from "../context/FilmContext";
 import { useNavigate } from "react-router-dom";
@@ -14,18 +13,47 @@ const FilmPage = () => {
   const [durationFilm, setDurationFilm] = useState('');
   const [ageRestrictionFilm, setAgeRestrictionFilm] = useState('');
   const [hasTranslationFilm, setHasTranslationFilm] = useState(false);
-
+  const [seeFilm] = useState(true);
 
   const navigate = useNavigate();
-  const { handleSignUp } = useContext(FilmContext);
+  const { handleFilm } = useContext(FilmContext);
   const { handleSubmit } = useForm();
-
   const onSubmit = async (event) => {
-    await handleSignUp({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm });
-    //console.log( nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm );
+    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm });
     navigate(`/`);
+    //console.log( nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm );
     //console.log('Данные для сохранения:', { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm });
   };
+
+
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const { handleGenreInfo, data } = useContext(FilmContext);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await handleGenreInfo();
+        // console.log(data)
+        // setData(data);
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  const handleGenreChange = (genre) => {
+    const index = selectedGenres.indexOf(genre);
+    if (index === -1) {
+      setSelectedGenres([...selectedGenres, genre]);
+    } else {
+      const updatedGenres = [...selectedGenres];
+      updatedGenres.splice(index, 1);
+      setSelectedGenres(updatedGenres);
+    }
+  };
+
 
   return (
     <>
@@ -76,8 +104,25 @@ const FilmPage = () => {
           <input type="checkbox" checked={hasTranslationFilm} onChange={(e) => setHasTranslationFilm(e.target.checked)} />
         </label>
         <br />
+        <label>
+          Жанры:
+        </label>
+        <br />
+        {data && data.map(item => (
+          <label key={item.name}>
+            <input
+              type="checkbox"
+              value={item.name}
+              checked={selectedGenres.includes(item.name)}
+              onChange={() => handleGenreChange(item.name)}
+            />
+            {item.name}
+          </label>
+        ))}
+        <br />
         <button type="submit">Сохранить</button>
       </form>
+      
     </>
   );
 };

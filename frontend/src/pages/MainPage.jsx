@@ -5,10 +5,10 @@ const MainPage = () => {
   return (
     <>
       <h1>Коллекция фильмов</h1>
-      <Link to="/viborFilm">
+      <Link to="/viborFilm" key="viborFilm">
         <button>Выбрать фильм</button>
       </Link>
-      <Link to="/collection">
+      <Link to="/collection" key="collection">
         <button>Моя коллекция фильмов</button>
       </Link>
     </>
