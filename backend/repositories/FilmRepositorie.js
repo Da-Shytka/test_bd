@@ -11,7 +11,8 @@ class FilmRepositorie {
     }
     const response = await pool.query("INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film, see_Film) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id_film",
       values);
-    return response.rows[0].id_film;
+    const filmId = response.rows[0].id_film;
+    return filmId;
   }
 
   static async getFilmInfo() {
@@ -25,8 +26,9 @@ class FilmRepositorie {
   }
   
   static async createFilmGenre({ filmId, genreId }) {
-    const response = await pool.query("INSERT INTO film_genre (id_film, id_genre) VALUES ($1, $2) ON CONFLICT DO NOTHING",
-      [filmId, genreId]);
+    console.log(filmId)
+    console.log(genreId)
+    const response = await pool.query("INSERT INTO film_genre (id_film, id_genre) VALUES ($1, $2) ON CONFLICT DO NOTHING", [filmId, genreId]);
     return response.rows;
   }
 
