@@ -7,6 +7,8 @@ class FilmService {
     // }
     static async film ({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm }) {
         const filmId = await FilmRepositorie.createFilm ({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm });
+        console.log("FilmService film filmId:", filmId); 
+        // console.log("FilmService film genre:", genre); 
         return filmId;
     }
 
@@ -22,13 +24,12 @@ class FilmService {
         return genres;
     }
 
-    static async filmGenre({ filmId, genre }) { // Добавлено: filmId для указания конкретного фильма
-        
+    static async filmGenre({ filmId, genre }) { 
+        console.log("filmGenre filmId", filmId)
+        console.log("filmGenre genre", genre)
         const genreIds = Array.isArray(genre) ? genre : [genre]; // Обработка массива жанров
         for (const genreId of genreIds) {
-            // console.log(filmId)
-            // console.log(genre)
-            await FilmRepositorie.createFilmGenre({ filmId, genreId }); // Добавлено: Создание связи между фильмом и жанром
+            await FilmRepositorie.createFilmGenre({ filmId, genreId }); // Создание связи между фильмом и жанром
         }
         return filmId;
     }

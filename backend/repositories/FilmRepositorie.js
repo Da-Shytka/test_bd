@@ -29,6 +29,7 @@ class FilmRepositorie {
     // console.log(filmId);
     // console.log(genreId);
     // Преобразование filmId в строку, если он не строка
+    // filmId = ;
     const response = await pool.query(
       "INSERT INTO film_genre (id_film, id_genre) VALUES ($1, $2) ON CONFLICT (id_film, id_genre) DO NOTHING",
       [filmId, genreId]

@@ -6,9 +6,9 @@ class FilmController {
     const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, genre } = req.body;
     try {
         const filmId = await FilmService.film ({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm });
-        await FilmService.filmGenre({ filmId, genre}); // Передача filmId в filmGenre
-        // console.log("filmId:", filmId); // Вывод filmId в консоль
-        // console.log("genre: req.body.genre:", genre); // Вывод filmId в консоль
+        // await FilmService.filmGenre({ filmId, genre}); // Передача filmId в filmGenre
+        console.log("FilmController film filmId:", filmId); 
+        // console.log("FilmController film genre:", genre); 
         return res.status(200).send('User details updated successfully.');
     } catch (err) {
         console.error(err);
@@ -46,9 +46,10 @@ class FilmController {
   static async filmGenre(req, res) {
     const { filmId, genre } = req.body; // Изменено: Получение идентификатора фильма и жанра из запроса
     try {
+        const filmId = 2;
         await FilmService.filmGenre({ filmId, genre }); // Исправлено: Передача идентификатора фильма и жанра
-        // console.log("genre:", genre); // Изменено: Вывод жанра в консоль
-        // console.log("filmId:", filmId);
+        // console.log("FilmController filmGenre filmId:", filmId); 
+        console.log("FilmController filmGenre genre:", genre); 
         return res.status(200).send('Film genre updated successfully.'); // Изменено: Сообщение об успешном обновлении
     } catch (err) {
         console.error(err);
