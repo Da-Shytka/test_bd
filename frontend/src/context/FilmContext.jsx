@@ -11,7 +11,7 @@ export const FilmContext = createContext({});
 
 const FilmProvider = ({ children }) => {
   const [data, setData] = useState();
-  const [isFilm, setIsFilm] = useState(false);
+  const [isFilm] = useState(false);
 
   const handleFilm = (filmData, genreData) => {
     console.log("! filmData !:", filmData);
@@ -36,6 +36,16 @@ const FilmProvider = ({ children }) => {
       });
   };
 
+  const handleFilmInfoAll = () => {
+    FilmClient.get("/collectionAll")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  
   const handleGenreInfo = () => {
     FilmClient.get("/genres")
       .then((response) => {
@@ -53,6 +63,7 @@ const FilmProvider = ({ children }) => {
           isFilm,
           handleFilmInfo,
           handleGenreInfo,
+          handleFilmInfoAll,
           handleFilm,
         }}
       >

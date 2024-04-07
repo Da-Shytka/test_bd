@@ -5,6 +5,7 @@ const router = Router();
 
 router.post("/films", FilmController.film);
 router.get("/collection", FilmController.getFilmInfo);
+router.get("/collectionAll", FilmController.getFilmInfoAll);
 router.get("/genres", FilmController.getGenreInfo);
 
 module.exports = router;

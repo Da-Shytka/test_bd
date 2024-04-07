@@ -1,7 +1,7 @@
 const pool = require('../dataBase');
 
 class FilmRepositorie {
-  static async createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm }) {
+  static async createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photos }) {
     const values = [nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm];
     // Заменяем пустые значения на null
     for (let i = 0; i < values.length; i++) {
@@ -9,14 +9,19 @@ class FilmRepositorie {
         values[i] = null;
       }
     }
-    const response = await pool.query("INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film, see_Film) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id_film",
-      values);
+    const response = await pool.query("INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film, see_Film, photo_film) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id_film",
+    [...values, photos]);
     const filmId = response.rows[0].id_film;
     return filmId;
   }
 
   static async getFilmInfo() {
     const response = await pool.query("SELECT * FROM film WHERE see_film = true");
+    return response.rows;
+  }
+
+  static async getFilmInfoAll() {
+    const response = await pool.query("SELECT * FROM film");
     return response.rows;
   }
 
@@ -36,20 +41,3 @@ class FilmRepositorie {
 }
 
 module.exports = FilmRepositorie;
-
-
-
-
-
-
-// const pool = require('../dataBase');
-
-// class FilmRepositorie {
-//   static async createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm }) {
-//       const response = await pool.query("INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id_film",
-//         [nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm]);
-//       return response.rows[0].id_film; // Возвращаем id созданной записи
-//   }
-// }
-
-// module.exports = FilmRepositorie;

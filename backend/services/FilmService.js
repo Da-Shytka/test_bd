@@ -2,8 +2,8 @@ const FilmRepositorie = require("../repositories/FilmRepositorie");
 
 class FilmService {
 
-    static async film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, genre }) {
-        const filmId = await FilmRepositorie.createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm });
+    static async film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photos, genre }) {
+        const filmId = await FilmRepositorie.createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, photos, seeFilm });
         
         const genreIds = Array.isArray(genre) ? genre : [genre]; // Обработка массива жанров
         for (const genreId of genreIds) {
@@ -14,6 +14,11 @@ class FilmService {
 
     static async getFilmInfo() {
         const films = await FilmRepositorie.getFilmInfo();
+        return films;
+    }
+
+    static async getFilmInfoAll() {
+        const films = await FilmRepositorie.getFilmInfoAll();
         return films;
     }
 

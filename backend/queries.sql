@@ -10,16 +10,17 @@ CREATE TABLE film (
     duration_film INTERVAL,
     age_restriction_film INTEGER,
     has_translation_film BOOLEAN,
-    see_film BOOLEAN
+    see_film BOOLEAN,
+    photo_film VARCHAR(255)
 );
-INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film, see_film) VALUES 
-('Побег из Шоушенка', 1994, 'США', '2024-04-16', 9.3, 4, '02:22:00', 16, true, true),
-('Крестный отец', 1972, 'США', '2024-04-17', 9.2, 5, '02:55:00', 16, true, false),
-('Темный рыцарь', 2008, 'США', '2024-04-17', 9.0, 4, '02:32:00', 14, true, false),
-('Форрест Гамп', 1994, 'США', '2024-04-17', 8.8, 4, '02:22:00', 12, true, false),
-('Начало', 2010, 'США', '2024-04-17', 8.8, 5, '02:28:00', 14, true, true);
-DROP TABLE IF EXISTS film;
+INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film, see_film, photo_film) VALUES 
+('Побег из Шоушенка', 1994, 'США', '2024-04-16', 9.3, 4, '02:22:00', 16, true, true, 'f'),
+('Крестный отец', 1972, 'США', '2024-04-17', 9.2, 5, '02:55:00', 16, true, false, 'f'),
+('Темный рыцарь', 2008, 'США', '2024-04-17', 9.0, 4, '02:32:00', 14, true, false, 'f'),
+('Форрест Гамп', 1994, 'США', '2024-04-17', 8.8, 4, '02:22:00', 12, true, false, 'f'),
+('Начало', 2010, 'США', '2024-04-17', 8.8, 5, '02:28:00', 14, true, true, 'f');
 SELECT * FROM film;
+DROP TABLE IF EXISTS film;
 
 
 -- таблица жанров
@@ -34,8 +35,8 @@ INSERT INTO genre (name, description) VALUES
     ('Романтика', 'Романтические произведения описывают взаимоотношения между людьми, часто с фокусом на любви и страсти.'),
     ('Приключения', 'Жанр приключений обычно содержит динамичные сюжеты, полные опасности и неожиданных поворотов.'),
     ('Ужасы', 'Ужасы создают атмосферу страха и тревоги, часто включая элементы сверхъестественного или ужасающих ситуаций.');
-DROP TABLE IF EXISTS genre;
 SELECT * FROM genre;
+DROP TABLE IF EXISTS genre;
 
 
 -- таблица жанров и фильмов
@@ -47,3 +48,4 @@ CREATE TABLE film_genre (
     CONSTRAINT unique_film_genre UNIQUE (id_film, id_genre)
 );
 SELECT * FROM film_genre;
+DROP TABLE IF EXISTS film_genre;

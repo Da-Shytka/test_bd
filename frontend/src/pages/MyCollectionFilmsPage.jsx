@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const MainPage = () => {
   const { handleFilmInfo, data } = useContext(FilmContext);
-  // const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +42,7 @@ const MainPage = () => {
               <td>{item.age_restriction_film}</td>
               <td>{item.has_translation_film}</td>
               <td>{item.see_Film}</td>
+              <td><img src={item.photo_film} alt={`Фото ${item.name_film}`} /></td>
             </tr>
           ))}
           </tbody>
