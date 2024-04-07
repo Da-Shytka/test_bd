@@ -14,31 +14,17 @@ const FilmProvider = ({ children }) => {
   const [isFilm, setIsFilm] = useState(false);
 
   const handleFilm = (filmData, genreData) => {
-    FilmClient.post("/films", filmData)
+    console.log("! filmData !:", filmData);
+    console.log("! genreData !:", genreData);
+    
+    FilmClient.post("/films", { ...filmData, genre: genreData })
       .then((response) => {
-        FilmClient.post("/film-genre", { genre: genreData })
-          .then(() => {
-            setIsFilm(true);
-            console.log("Жанры успешно добавлены к фильму");
-          })
-          .catch((error) => {
-            console.error("Ошибка при добавлении жанров к фильму:", error);
-          });
+        console.log("Успешный ответ:", response);
       })
       .catch((error) => {
         console.error("Ошибка при добавлении фильма:", error);
-    });
+      });
   };
-  // const handleFilm = (data) => {
-  //   console.log("Данные о фильме:", data);
-  //   FilmClient.post("/films", data) 
-  //   .then(() => {
-  //     setIsFilm(true);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // };
 
   const handleFilmInfo = () => {
     FilmClient.get("/collection")

@@ -26,22 +26,12 @@ class FilmRepositorie {
   }
   
   static async createFilmGenre({ filmId, genreId }) {
-    // console.log(filmId);
-    // console.log(genreId);
-    // Преобразование filmId в строку, если он не строка
-    // filmId = ;
     const response = await pool.query(
       "INSERT INTO film_genre (id_film, id_genre) VALUES ($1, $2) ON CONFLICT (id_film, id_genre) DO NOTHING",
       [filmId, genreId]
   );
   return response.rows;
-}
-  // static async createFilmGenre({ filmId, genreId }) {
-  //   console.log(filmId)
-  //   console.log(genreId)
-  //   const response = await pool.query("INSERT INTO film_genre (id_film, id_genre) VALUES ($1, $2) ON CONFLICT DO NOTHING", [filmId, genreId]);
-  //   return response.rows;
-  // }
+  }
 
 }
 
