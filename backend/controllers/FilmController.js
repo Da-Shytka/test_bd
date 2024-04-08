@@ -3,9 +3,11 @@ const { ErrorUtils } = require("../utils/Errors");
 
 class FilmController {
   static async film(req, res) {
-    const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photos, genre } = req.body;
+    const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre } = req.body;
     try {
-      const { filmId, genre: filmGenre } = await FilmService.film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photos, genre });
+      console.log("!!!", nameFilm)
+      console.log("!!!", photoFilm)
+      const { filmId, genre: filmGenre } = await FilmService.film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre });
       return res.status(200).send('Film details updated successfully.');
     } catch (err) {
       console.error(err);

@@ -15,6 +15,7 @@ const FilmPage = () => {
   const [ageRestrictionFilm, setAgeRestrictionFilm] = useState('');
   const [hasTranslationFilm, setHasTranslationFilm] = useState(false);
   const [seeFilm] = useState(true);
+  const [photoFilm, setPhotoFilm] = useState('');
 
   // Хук для перехода на другую страницу
   const navigate = useNavigate();
@@ -54,8 +55,8 @@ const FilmPage = () => {
 
   // Функция вызывается при отправке формы
   const onSubmit = async (event) => {
-    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm }, selectedGenres);
-    //console.log(selectedGenres)
+    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm }, selectedGenres);
+    console.log(photoFilm)
     navigate(`/`);
     //console.log( nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm );
     // console.log('Данные для сохранения:', { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, selectedGenres  });
@@ -110,6 +111,10 @@ const FilmPage = () => {
           <input type="checkbox" checked={hasTranslationFilm} onChange={(e) => setHasTranslationFilm(e.target.checked)} />
         </label>
         <br />
+        <label>
+          Ссылка на фото:
+          <input type="photo" value={photoFilm} onChange={(e) => setPhotoFilm(e.target.value)} />
+        </label>
         <label>
           Жанры:
         </label>
