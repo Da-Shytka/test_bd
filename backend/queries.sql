@@ -49,3 +49,28 @@ CREATE TABLE film_genre (
 );
 SELECT * FROM film_genre;
 DROP TABLE IF EXISTS film_genre;
+
+
+-- таблица актеров
+CREATE TABLE actor (
+    actor_id SERIAL PRIMARY KEY,
+    actor_photo VARCHAR(255),
+    actor_name VARCHAR(255),
+    actor_dob DATE,
+    actor_social_media VARCHAR(255)
+);
+SELECT * FROM actor;
+DROP TABLE IF EXISTS actor;
+
+
+-- таблица актеров и фильмов
+CREATE TABLE film_actor (
+    actor_id INTEGER REFERENCES actor(actor_id),
+    film_id INTEGER REFERENCES film(id_film),
+    actor_name_in_film VARCHAR(255),
+    PRIMARY KEY (actor_id, film_id)
+);
+SELECT * FROM film_actor;
+DROP TABLE IF EXISTS film_actor;
+
+

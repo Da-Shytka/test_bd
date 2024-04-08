@@ -34,8 +34,22 @@ class FilmRepositorie {
     const response = await pool.query(
       "INSERT INTO film_genre (id_film, id_genre) VALUES ($1, $2) ON CONFLICT (id_film, id_genre) DO NOTHING",
       [filmId, genreId]
-  );
-  return response.rows;
+    );
+    return response.rows;
+  }
+
+  static async createActor({ actor_photo, actor_name, actor_dob, actor_social_media }) {
+    const values = [actor_photo, actor_name, actor_dob, actor_social_media];
+    // Заменяем пустые значения на null
+    for (let i = 0; i < values.length; i++) {
+      if (values[i] === '') {
+        values[i] = null;
+      }
+    }
+    const response = await pool.query("INSERT INTO actor (actor_photo, actor_name, actor_dob, actor_social_media) VALUES ($1, $2, $3, $4) RETURNING actor_id",
+      values);
+    const actorId = response.rows[0].actor_id;
+    return actorId;
   }
 
 }

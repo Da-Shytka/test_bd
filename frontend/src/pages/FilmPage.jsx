@@ -17,6 +17,12 @@ const FilmPage = () => {
   const [seeFilm] = useState(true);
   const [photoFilm, setPhotoFilm] = useState('');
 
+  // const [photoActor, setPhotoActor] = useState('');
+  // const [nameActor, setNameActor] = useState('');
+  // const [yearActor, setYearActor] = useState('');
+  // const [linkActor, setLinkActor] = useState('');
+
+
   // Хук для перехода на другую страницу
   const navigate = useNavigate();
 
@@ -28,6 +34,9 @@ const FilmPage = () => {
 
   // Состояние для выбранных жанров
   const [selectedGenres, setSelectedGenres] = useState([]);
+
+  // Состояния для хранения данных об актерах
+  const [actors, setActors] = useState([]);
 
   // Эффект для получения информации о жанрах
   useEffect(() => {
@@ -53,10 +62,33 @@ const FilmPage = () => {
     }
   };
 
+  // Функция для добавления нового актера
+  const addActor = () => {
+    setActors([...actors, { name: '', year: '', link: '', photo: '' }]);
+  };
+
+
+  // Функция для удаления актера по индексу
+  const removeActor = (index) => {
+    const updatedActors = [...actors];
+    updatedActors.splice(index, 1);
+    setActors(updatedActors);
+  };
+
+
   // Функция вызывается при отправке формы
   const onSubmit = async (event) => {
-    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm }, selectedGenres);
-    console.log(photoFilm)
+
+    // Создаем массив данных об актерах для отправки
+    const actorsData = actors.map(actor => ({
+      name: actor.name,
+      year: actor.year,
+      link: actor.link,
+      photo: actor.photo
+    }));
+
+    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, actors: actorsData }, selectedGenres);
+    console.log(actorsData)
     navigate(`/`);
   };
 
@@ -113,6 +145,7 @@ const FilmPage = () => {
           Ссылка на фото:
           <input type="photo" value={photoFilm} onChange={(e) => setPhotoFilm(e.target.value)} />
         </label>
+        <br />
         <label>
           Жанры:
         </label>
@@ -129,12 +162,59 @@ const FilmPage = () => {
           </label>
         ))}
         <br />
+        {/* Кнопка для добавления нового актера */}
+        <button type="button" onClick={addActor}>Добавить актера</button>
+
+        {/* Поля ввода для каждого актера */}
+        {actors.map((actor, index) => (
+          <div key={index}>
+            <label>
+              Фото актера:
+              <input type="photo" value={actor.photo} onChange={(e) => {
+                const updatedActors = [...actors];
+                updatedActors[index].photo = e.target.value;
+                setActors(updatedActors);
+              }} />
+            </label>
+            <br />
+            <label>
+              Имя актера:
+              <input type="text" value={actor.name} onChange={(e) => {
+                const updatedActors = [...actors];
+                updatedActors[index].name = e.target.value;
+                setActors(updatedActors);
+              }} />
+            </label>
+            <br />
+            <label>
+              Дата рождения актера:
+              <input type="date" value={actor.year} onChange={(e) => {
+                const updatedActors = [...actors];
+                updatedActors[index].year = e.target.value;
+                setActors(updatedActors);
+              }} />
+            </label>
+            <br />
+            <label>
+              Ссылка для связи с ним:
+              <input type="text" value={actor.link} onChange={(e) => {
+                const updatedActors = [...actors];
+                updatedActors[index].link = e.target.value;
+                setActors(updatedActors);
+              }} />
+            </label>
+            <br />
+            {/* Кнопка для удаления актера */}
+            <button type="button" onClick={() => removeActor(index)}>Удалить</button>
+          </div>
+        ))}
+
+        <br />
         <button type="submit">Сохранить</button>
       </form>
       
     </>
   );
 };
-
 
 export default FilmPage;
