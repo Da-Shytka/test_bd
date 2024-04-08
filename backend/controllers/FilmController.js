@@ -5,8 +5,6 @@ class FilmController {
   static async film(req, res) {
     const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre } = req.body;
     try {
-      console.log("!!!", nameFilm)
-      console.log("!!!", photoFilm)
       const { filmId, genre: filmGenre } = await FilmService.film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre });
       return res.status(200).send('Film details updated successfully.');
     } catch (err) {
@@ -21,7 +19,6 @@ class FilmController {
       if (!filmData) {
         return res.sendStatus(404);
       }
-      // console.log(filmData);
       return res.json(filmData);
     } catch (err) {
       console.error(err);
@@ -35,7 +32,6 @@ class FilmController {
       if (!filmData) {
         return res.sendStatus(404);
       }
-      // console.log(filmData);
       return res.json(filmData);
     } catch (err) {
       console.error(err);

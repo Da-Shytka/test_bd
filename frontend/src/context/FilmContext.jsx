@@ -14,12 +14,9 @@ const FilmProvider = ({ children }) => {
   const [isFilm] = useState(false);
 
   const handleFilm = (filmData, genreData) => {
-    console.log("! filmData !:", filmData);
-    console.log("! genreData !:", genreData);
     
     FilmClient.post("/films", { ...filmData, genre: genreData })
       .then((response) => {
-        console.log("Context:", filmData);
         console.log("Успешный ответ:", response);
       })
       .catch((error) => {

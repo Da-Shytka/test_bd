@@ -4,8 +4,6 @@ class FilmService {
 
     static async film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre }) {
         const filmId = await FilmRepositorie.createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, photoFilm, seeFilm });
-        console.log("Service photo", nameFilm)
-        console.log("Service photo", photoFilm)
         const genreIds = Array.isArray(genre) ? genre : [genre]; // Обработка массива жанров
         for (const genreId of genreIds) {
             await FilmRepositorie.createFilmGenre({ filmId, genreId }); // Создание связи между фильмом и жанром
