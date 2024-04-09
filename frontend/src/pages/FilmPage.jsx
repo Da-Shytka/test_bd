@@ -21,7 +21,7 @@ const FilmPage = () => {
   const navigate = useNavigate();
 
   // Контекст для обмена данными о фильмах и жанрах
-  const { handleFilm, handleGenreInfo, data } = useContext(FilmContext);
+  const { handleFilm, handleGenreInfo, handleActorInfo, data } = useContext(FilmContext);
   
   // Хук для управления формой
   const { handleSubmit } = useForm();
@@ -32,10 +32,8 @@ const FilmPage = () => {
   // Состояния для хранения данных об актерах
   const [actors, setActors] = useState([]);
 
-
   // Состояния для хранения данных об актерах
   const [directors, setDirectors] = useState([]);
-
 
   // Эффект для получения информации о жанрах
   useEffect(() => {
@@ -48,6 +46,18 @@ const FilmPage = () => {
     };
     fetchData();
   }, [handleGenreInfo]);
+
+  // Эффект для получения информации об актерах (вызываем метод handleActorInfo при монтировании компонента)
+  useEffect(() => {
+    const fetchActorInfo = async () => {
+      try {
+        await handleActorInfo(); // Вызываем метод handleActorInfo
+      } catch (error) {
+        console.error('Ошибка при получении данных об актерах:', error);
+      }
+    };
+    fetchActorInfo();
+  }, []); 
 
   // Функция для обновления выбранных жанров
   const handleGenreChange = (genre) => {
@@ -84,7 +94,6 @@ const FilmPage = () => {
     updatedDirectors.splice(index, 1);
     setDirectors(updatedDirectors);
   };
-
 
   // Функция вызывается при отправке формы
   const onSubmit = async (event) => {

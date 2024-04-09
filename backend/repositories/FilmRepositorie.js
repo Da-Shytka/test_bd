@@ -29,6 +29,12 @@ class FilmRepositorie {
     const response = await pool.query("SELECT name FROM genre");
     return response.rows;
   }
+
+  static async getActorInfo() {
+    const response = await pool.query("SELECT actor_id FROM actor");
+    const actorIds = response.rows.map(row => row.actor_id);
+    return actorIds;
+  }
   
   static async createFilmGenre({ filmId, genreId }) {
     const response = await pool.query(
@@ -38,8 +44,15 @@ class FilmRepositorie {
     return response.rows;
   }
 
+  static async createFilmActor({ filmId, actorId }) {
+    const response = await pool.query(
+      "INSERT INTO film_actor (actor_id, film_id) VALUES ($1, $2) ON CONFLICT (actor_id, film_id) DO NOTHING",
+      [actorId, filmId]
+    );
+    return response.rows;
+  }
+
   static async createActor(actors) {
-    console.log("Repository", actors)
     const actorIds = []; // массив для хранения идентификаторов созданных актеров
     for (const actor of actors) {
       const { photo, name, year, link } = actor;
@@ -58,16 +71,10 @@ class FilmRepositorie {
   }
 
   static async createDirector(directors) {
-    console.log("Repository", directors)
     const directorIds = []; // массив для хранения идентификаторов созданных актеров
     for (const director of directors) {
       const { photo, name, year, link } = director;
-      console.log("Repository photo", photo)
-      console.log("Repository name", name)
-      console.log("Repository year", year)
-      console.log("Repository link", link)
       const values = [photo, name, year, link];
-      console.log("Repository values", values)
       // Заменяем пустые значения на null
       for (let i = 0; i < values.length; i++) {
         if (values[i] === '') {

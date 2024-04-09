@@ -83,4 +83,4 @@ CREATE TABLE director (
     director_social_media VARCHAR(255)
 );
 SELECT * FROM director;
-DROP TABLE IF EXISTS film_actor;
+DROP TABLE IF EXISTS director;

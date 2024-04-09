@@ -5,9 +5,9 @@ class FilmController {
   static async film(req, res) {
     const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre, actors, directors } = req.body;
     try {
-      console.log("Controller actors", actors)
-      console.log("Controller directors", directors)
-      const { filmId, genre: filmGenre } = await FilmService.film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre, actors, directors });
+      const { filmId, genre: filmGenre, actors: actorId } = await FilmService.film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre, actors, directors });
+      console.log("FilmController filmId", filmId);
+      console.log("FilmController actorId", actorId);
       return res.status(200).send('Film details updated successfully.');
     } catch (err) {
       console.error(err);
@@ -44,6 +44,19 @@ class FilmController {
   static async getGenreInfo(req, res) {
     try {
       const userData = await FilmService.getGenreInfo();
+      if (!userData) {
+        return res.sendStatus(404);
+      }
+      return res.json(userData);
+    } catch (err) {
+      console.error(err);
+      return ErrorUtils.catchError(res, err);
+    }
+  }
+
+  static async getActorInfo(req, res) {
+    try {
+      const userData = await FilmService.getActorInfo();
       if (!userData) {
         return res.sendStatus(404);
       }
