@@ -74,3 +74,13 @@ SELECT * FROM film_actor;
 DROP TABLE IF EXISTS film_actor;
 
 
+-- таблица режиссеров
+CREATE TABLE director (
+    director_id SERIAL PRIMARY KEY,
+    director_photo VARCHAR(255),
+    director_name VARCHAR(255),
+    director_dob DATE,
+    director_social_media VARCHAR(255)
+);
+SELECT * FROM director;
+DROP TABLE IF EXISTS film_actor;

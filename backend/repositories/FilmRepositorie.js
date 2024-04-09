@@ -38,20 +38,48 @@ class FilmRepositorie {
     return response.rows;
   }
 
-  static async createActor({ actor_photo, actor_name, actor_dob, actor_social_media }) {
-    const values = [actor_photo, actor_name, actor_dob, actor_social_media];
-    // Заменяем пустые значения на null
-    for (let i = 0; i < values.length; i++) {
-      if (values[i] === '') {
-        values[i] = null;
+  static async createActor(actors) {
+    console.log("Repository", actors)
+    const actorIds = []; // массив для хранения идентификаторов созданных актеров
+    for (const actor of actors) {
+      const { photo, name, year, link } = actor;
+      const values = [photo, name, year, link];
+      // Заменяем пустые значения на null
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === '') {
+            values[i] = null;
+        }
       }
+      const response = await pool.query("INSERT INTO actor (actor_photo, actor_name, actor_dob, actor_social_media) VALUES ($1, $2, $3, $4) RETURNING actor_id", values);
+      const actorId = response.rows[0].actor_id;
+      actorIds.push(actorId); // добавляем идентификатор созданного актера в массив
     }
-    const response = await pool.query("INSERT INTO actor (actor_photo, actor_name, actor_dob, actor_social_media) VALUES ($1, $2, $3, $4) RETURNING actor_id",
-      values);
-    const actorId = response.rows[0].actor_id;
-    return actorId;
+    return actorIds; // возвращаем массив идентификаторов созданных актеров
   }
 
+  static async createDirector(directors) {
+    console.log("Repository", directors)
+    const directorIds = []; // массив для хранения идентификаторов созданных актеров
+    for (const director of directors) {
+      const { photo, name, year, link } = director;
+      console.log("Repository photo", photo)
+      console.log("Repository name", name)
+      console.log("Repository year", year)
+      console.log("Repository link", link)
+      const values = [photo, name, year, link];
+      console.log("Repository values", values)
+      // Заменяем пустые значения на null
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === '') {
+            values[i] = null;
+        }
+      }
+      const response = await pool.query("INSERT INTO director (director_photo, director_name, director_dob, director_social_media) VALUES ($1, $2, $3, $4) RETURNING director_id", values);
+      const directorId = response.rows[0].director_id;
+      directorIds.push(directorId); // добавляем идентификатор созданного актера в массив
+    }
+    return directorIds; // возвращаем массив идентификаторов созданных актеров
+  }
 }
 
 module.exports = FilmRepositorie;

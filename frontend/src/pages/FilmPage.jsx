@@ -17,12 +17,6 @@ const FilmPage = () => {
   const [seeFilm] = useState(true);
   const [photoFilm, setPhotoFilm] = useState('');
 
-  // const [photoActor, setPhotoActor] = useState('');
-  // const [nameActor, setNameActor] = useState('');
-  // const [yearActor, setYearActor] = useState('');
-  // const [linkActor, setLinkActor] = useState('');
-
-
   // Хук для перехода на другую страницу
   const navigate = useNavigate();
 
@@ -37,6 +31,11 @@ const FilmPage = () => {
 
   // Состояния для хранения данных об актерах
   const [actors, setActors] = useState([]);
+
+
+  // Состояния для хранения данных об актерах
+  const [directors, setDirectors] = useState([]);
+
 
   // Эффект для получения информации о жанрах
   useEffect(() => {
@@ -62,17 +61,28 @@ const FilmPage = () => {
     }
   };
 
-  // Функция для добавления нового актера
-  const addActor = () => {
+   // Функция для добавления нового актера
+   const addActor = () => {
     setActors([...actors, { name: '', year: '', link: '', photo: '' }]);
   };
 
+  // Функция для добавления нового режиссера
+  const addDirector = () => {
+    setDirectors([...directors, { name: '', year: '', link: '', photo: '' }]);
+  };
 
   // Функция для удаления актера по индексу
   const removeActor = (index) => {
     const updatedActors = [...actors];
     updatedActors.splice(index, 1);
     setActors(updatedActors);
+  };
+
+  // Функция для удаления режиссера по индексу
+  const removeDirector = (index) => {
+    const updatedDirectors = [...directors];
+    updatedDirectors.splice(index, 1);
+    setDirectors(updatedDirectors);
   };
 
 
@@ -87,8 +97,17 @@ const FilmPage = () => {
       photo: actor.photo
     }));
 
-    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, actors: actorsData }, selectedGenres);
+    // Создаем массив данных о режиссерах для отправки
+    const directorsData = directors.map(director => ({
+      name: director.name,
+      year: director.year,
+      link: director.link,
+      photo: director.photo
+    }));
+
+    await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, actors: actorsData, directors: directorsData }, selectedGenres);
     console.log(actorsData)
+    console.log(directorsData)
     navigate(`/`);
   };
 
@@ -146,6 +165,7 @@ const FilmPage = () => {
           <input type="photo" value={photoFilm} onChange={(e) => setPhotoFilm(e.target.value)} />
         </label>
         <br />
+        <br />
         <label>
           Жанры:
         </label>
@@ -162,15 +182,15 @@ const FilmPage = () => {
           </label>
         ))}
         <br />
+        <br />
         {/* Кнопка для добавления нового актера */}
         <button type="button" onClick={addActor}>Добавить актера</button>
-
         {/* Поля ввода для каждого актера */}
         {actors.map((actor, index) => (
           <div key={index}>
             <label>
               Фото актера:
-              <input type="photo" value={actor.photo} onChange={(e) => {
+              <input type="text" value={actor.photo} onChange={(e) => {
                 const updatedActors = [...actors];
                 updatedActors[index].photo = e.target.value;
                 setActors(updatedActors);
@@ -208,7 +228,54 @@ const FilmPage = () => {
             <button type="button" onClick={() => removeActor(index)}>Удалить</button>
           </div>
         ))}
-
+        <br />
+        <br />
+        {/* Кнопка для добавления нового режиссера */}
+        <button type="button" onClick={addDirector}>Добавить режиссера</button>
+        {/* Поля ввода для каждого режиссера */}
+        {directors.map((director, index) => (
+          <div key={index}>
+            <label>
+              Фото режиссера:
+              <input type="text" value={director.photo} onChange={(e) => {
+                const updatedDirectors = [...directors];
+                updatedDirectors[index].photo = e.target.value;
+                setDirectors(updatedDirectors);
+              }} />
+            </label>
+            <br />
+            <label>
+              Имя режиссера:
+              <input type="text" value={director.name} onChange={(e) => {
+                const updatedDirectors = [...directors];
+                updatedDirectors[index].name = e.target.value;
+                setDirectors(updatedDirectors);
+              }} />
+            </label>
+            <br />
+            <label>
+              Дата рождения режиссера:
+              <input type="date" value={director.year} onChange={(e) => {
+                const updatedDirectors = [...directors];
+                updatedDirectors[index].year = e.target.value;
+                setDirectors(updatedDirectors);
+              }} />
+            </label>
+            <br />
+            <label>
+              Ссылка для связи с ним:
+              <input type="text" value={director.link} onChange={(e) => {
+                const updatedDirectors = [...directors];
+                updatedDirectors[index].link = e.target.value;
+                setDirectors(updatedDirectors);
+              }} />
+            </label>
+            <br />
+            {/* Кнопка для удаления режиссера */}
+            <button type="button" onClick={() => removeDirector(index)}>Удалить</button>
+          </div>
+        ))}
+        <br />
         <br />
         <button type="submit">Сохранить</button>
       </form>
