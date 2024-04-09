@@ -57,6 +57,7 @@ const FilmPage = () => {
       }
     };
     fetchActorInfo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); 
 
     // Эффект для получения информации об режиссерах (вызываем метод handleDirectorInfo при монтировании компонента)
@@ -69,6 +70,7 @@ const FilmPage = () => {
         }
       };
       fetchctorInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); 
 
   // Функция для обновления выбранных жанров
