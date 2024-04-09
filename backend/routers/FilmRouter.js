@@ -8,5 +8,6 @@ router.get("/collection", FilmController.getFilmInfo);
 router.get("/collectionAll", FilmController.getFilmInfoAll);
 router.get("/genres", FilmController.getGenreInfo);
 router.get("/actors", FilmController.getActorInfo);
+router.get("/directors", FilmController.getDirectorInfo);
 
 module.exports = router;

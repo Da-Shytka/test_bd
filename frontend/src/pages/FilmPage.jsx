@@ -21,7 +21,7 @@ const FilmPage = () => {
   const navigate = useNavigate();
 
   // Контекст для обмена данными о фильмах и жанрах
-  const { handleFilm, handleGenreInfo, handleActorInfo, data } = useContext(FilmContext);
+  const { handleFilm, handleGenreInfo, handleActorInfo, handleDirectorInfo, data } = useContext(FilmContext);
   
   // Хук для управления формой
   const { handleSubmit } = useForm();
@@ -32,7 +32,7 @@ const FilmPage = () => {
   // Состояния для хранения данных об актерах
   const [actors, setActors] = useState([]);
 
-  // Состояния для хранения данных об актерах
+  // Состояния для хранения данных об режиссерах
   const [directors, setDirectors] = useState([]);
 
   // Эффект для получения информации о жанрах
@@ -58,6 +58,18 @@ const FilmPage = () => {
     };
     fetchActorInfo();
   }, []); 
+
+    // Эффект для получения информации об режиссерах (вызываем метод handleDirectorInfo при монтировании компонента)
+    useEffect(() => {
+      const fetchctorInfo = async () => {
+        try {
+          await handleDirectorInfo(); // Вызываем метод handleDirectorInfo
+        } catch (error) {
+          console.error('Ошибка при получении данных об режиссерах:', error);
+        }
+      };
+      fetchctorInfo();
+    }, []); 
 
   // Функция для обновления выбранных жанров
   const handleGenreChange = (genre) => {
@@ -115,8 +127,6 @@ const FilmPage = () => {
     }));
 
     await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, actors: actorsData, directors: directorsData }, selectedGenres);
-    console.log(actorsData)
-    console.log(directorsData)
     navigate(`/`);
   };
 

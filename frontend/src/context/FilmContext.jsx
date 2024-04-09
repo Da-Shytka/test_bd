@@ -65,6 +65,16 @@ const FilmProvider = ({ children }) => {
       });
   };
 
+  const handleDirectorInfo = () => {
+    FilmClient.get("/directors")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
       <FilmContext.Provider
         value={{
@@ -73,6 +83,7 @@ const FilmProvider = ({ children }) => {
           handleFilmInfo,
           handleGenreInfo,
           handleActorInfo,
+          handleDirectorInfo,
           handleFilmInfoAll,
           handleFilm,
         }}

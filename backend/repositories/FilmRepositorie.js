@@ -35,6 +35,12 @@ class FilmRepositorie {
     const actorIds = response.rows.map(row => row.actor_id);
     return actorIds;
   }
+
+  static async getDirectorInfo() {
+    const response = await pool.query("SELECT director_id FROM director");
+    const directorIds = response.rows.map(row => row.director_id);
+    return directorIds;
+  }
   
   static async createFilmGenre({ filmId, genreId }) {
     const response = await pool.query(
@@ -48,6 +54,14 @@ class FilmRepositorie {
     const response = await pool.query(
       "INSERT INTO film_actor (actor_id, film_id) VALUES ($1, $2) ON CONFLICT (actor_id, film_id) DO NOTHING",
       [actorId, filmId]
+    );
+    return response.rows;
+  }
+
+  static async createFilmDirector({ filmId, directorId }) {
+    const response = await pool.query(
+      "INSERT INTO film_director (film_id, director_id) VALUES ($1, $2) ON CONFLICT (film_id, director_id) DO NOTHING",
+      [filmId, directorId]
     );
     return response.rows;
   }

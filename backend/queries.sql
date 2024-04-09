@@ -84,3 +84,14 @@ CREATE TABLE director (
 );
 SELECT * FROM director;
 DROP TABLE IF EXISTS director;
+
+
+-- таблица режиссеров и фильмов
+CREATE TABLE film_director (
+    film_id INTEGER REFERENCES film(id_film),
+    director_id INTEGER REFERENCES director(director_id),
+    role_director_in_film VARCHAR(100),
+    PRIMARY KEY (director_id, film_id)
+);
+SELECT * FROM film_director;
+DROP TABLE IF EXISTS film_director;
