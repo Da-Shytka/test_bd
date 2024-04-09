@@ -6,8 +6,6 @@ class FilmController {
     const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre, actors, directors } = req.body;
     try {
       const { filmId, genre: filmGenre, actors: actorId } = await FilmService.film({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre, actors, directors });
-      console.log("FilmController filmId", filmId);
-      console.log("FilmController actorId", actorId);
       return res.status(200).send('Film details updated successfully.');
     } catch (err) {
       console.error(err);
