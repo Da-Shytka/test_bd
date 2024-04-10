@@ -66,6 +66,14 @@ class FilmRepositorie {
     return response.rows;
   }
 
+  static async createGenreDirector({ genreId, directorId }) {
+    const response = await pool.query(
+      "INSERT INTO genre_director (id_genre, director_id) VALUES ($1, $2) ON CONFLICT (id_genre, director_id) DO NOTHING",
+      [genreId, directorId]
+    );
+    return response.rows;
+  }
+
   static async createActor(actors) {
     const actorIds = []; // массив для хранения идентификаторов созданных актеров
     for (const actor of actors) {

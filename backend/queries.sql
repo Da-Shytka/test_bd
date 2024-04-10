@@ -95,3 +95,14 @@ CREATE TABLE film_director (
 );
 SELECT * FROM film_director;
 DROP TABLE IF EXISTS film_director;
+
+
+-- таблица жанров и режиссеров
+CREATE TABLE genre_director (
+    id_genre VARCHAR(100) REFERENCES genre(name),
+    director_id INTEGER REFERENCES director(director_id),
+    count_films_in_genre INTEGER,
+    PRIMARY KEY (id_genre, director_id)
+);
+SELECT * FROM genre_director;
+DROP TABLE IF EXISTS genre_director;

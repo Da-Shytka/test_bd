@@ -27,6 +27,9 @@ class FilmService {
         const genreIds = Array.isArray(genre) ? genre : [genre]; // Обработка массива жанров
         for (const genreId of genreIds) {
             await FilmRepositorie.createFilmGenre({ filmId, genreId }); // Создание связи между фильмом и жанром
+            for (const directorId of directorIds) {
+                await FilmRepositorie.createGenreDirector({ genreId, directorId });
+            }
         }
         
         return { filmId, genreIds, actors, directors, actorIds, directorIds };
