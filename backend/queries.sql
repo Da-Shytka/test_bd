@@ -80,7 +80,8 @@ CREATE TABLE director (
     director_photo VARCHAR(255),
     director_name VARCHAR(255),
     director_dob DATE,
-    director_social_media VARCHAR(255)
+    director_social_media VARCHAR(255),
+    director_role VARCHAR(50)
 );
 SELECT * FROM director;
 DROP TABLE IF EXISTS director;

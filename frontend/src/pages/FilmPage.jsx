@@ -92,7 +92,7 @@ const FilmPage = () => {
 
   // Функция для добавления нового режиссера
   const addDirector = () => {
-    setDirectors([...directors, { name: '', year: '', link: '', photo: '' }]);
+    setDirectors([...directors, { name: '', year: '', link: '', role: 'Режиссер', photo: '' }]);
   };
 
   // Функция для удаления актера по индексу
@@ -125,6 +125,7 @@ const FilmPage = () => {
       name: director.name,
       year: director.year,
       link: director.link,
+      role: director.role,
       photo: director.photo
     }));
 
@@ -252,12 +253,12 @@ const FilmPage = () => {
         <br />
         <br />
         {/* Кнопка для добавления нового режиссера */}
-        <button type="button" onClick={addDirector}>Добавить режиссера</button>
+        <button type="button" onClick={addDirector}>Добавить человека по фильму</button>
         {/* Поля ввода для каждого режиссера */}
         {directors.map((director, index) => (
           <div key={index}>
             <label>
-              Фото режиссера:
+              Фото:
               <input type="text" value={director.photo} onChange={(e) => {
                 const updatedDirectors = [...directors];
                 updatedDirectors[index].photo = e.target.value;
@@ -266,7 +267,7 @@ const FilmPage = () => {
             </label>
             <br />
             <label>
-              Имя режиссера:
+              Имя:
               <input type="text" value={director.name} onChange={(e) => {
                 const updatedDirectors = [...directors];
                 updatedDirectors[index].name = e.target.value;
@@ -275,7 +276,7 @@ const FilmPage = () => {
             </label>
             <br />
             <label>
-              Дата рождения режиссера:
+              Дата рождения:
               <input type="date" value={director.year} onChange={(e) => {
                 const updatedDirectors = [...directors];
                 updatedDirectors[index].year = e.target.value;
@@ -290,6 +291,23 @@ const FilmPage = () => {
                 updatedDirectors[index].link = e.target.value;
                 setDirectors(updatedDirectors);
               }} />
+            </label>
+            <br />
+            <label>
+              Кто:
+              <select value={director.role} onChange={(e) => {
+                const updatedDirectors = [...directors];
+                updatedDirectors[index].role = e.target.value;
+                setDirectors(updatedDirectors);
+              }}>
+                <option value="Режиссер">Режиссер</option>
+                <option value="Сценарий">Сценарий</option>
+                <option value="Продюсер">Продюсер</option>
+                <option value="Оператор">Оператор</option>
+                <option value="Композитор">Композитор</option>
+                <option value="Художник">Художник</option>
+                <option value="Монтаж">Монтаж</option>
+              </select>
             </label>
             <br />
             {/* Кнопка для удаления режиссера */}

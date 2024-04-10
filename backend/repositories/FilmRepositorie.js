@@ -95,15 +95,15 @@ class FilmRepositorie {
   static async createDirector(directors) {
     const directorIds = []; // массив для хранения идентификаторов созданных актеров
     for (const director of directors) {
-      const { photo, name, year, link } = director;
-      const values = [photo, name, year, link];
+      const { photo, name, year, link, role } = director;
+      const values = [photo, name, year, link, role];
       // Заменяем пустые значения на null
       for (let i = 0; i < values.length; i++) {
         if (values[i] === '') {
             values[i] = null;
         }
       }
-      const response = await pool.query("INSERT INTO director (director_photo, director_name, director_dob, director_social_media) VALUES ($1, $2, $3, $4) RETURNING director_id", values);
+      const response = await pool.query("INSERT INTO director (director_photo, director_name, director_dob, director_social_media, director_role) VALUES ($1, $2, $3, $4, $5) RETURNING director_id", values);
       const directorId = response.rows[0].director_id;
       directorIds.push(directorId); // добавляем идентификатор созданного актера в массив
     }
