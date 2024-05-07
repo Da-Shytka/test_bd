@@ -61,28 +61,12 @@ class FilmRepositorie {
  
      // Преобразуем ответ в массив id_film фильма или фильмов
      const filmIds = response.rows.map(row => row.id_film);
+
      console.log("Repositories response", filmIds);
+     
      
      return filmIds;
  }
-  // static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
-  //  console.log("Repositories firstFilmId", firstFilmId)
-  //  console.log("Repositories secondFilmId", secondFilmId)
-
-  //   // Получаем список жанров для двух заданных фильмов
-  //   const response = await pool.query(
-  //     "SELECT DISTINCT fg.id_genre " +
-  //     "FROM film_genre fg " +
-  //     "WHERE fg.id_film = $1 OR fg.id_film = $2",
-  //     [firstFilmId, secondFilmId]
-  //   );
-
-  //   // Преобразуем ответ в массив жанров
-  //   const genres = response.rows.map(row => row.id_genre);
-  //   console.log("Repositories response", genres);
-    
-  //   return genres;
-  // }
 
   static async getFilmInfo() {
     const response = await pool.query("SELECT * FROM film WHERE see_film = true");
@@ -172,7 +156,8 @@ class FilmRepositorie {
             values[i] = null;
         }
       }
-      const response = await pool.query("INSERT INTO director (director_photo, director_name, director_dob, director_social_media, director_role) VALUES ($1, $2, $3, $4, $5) RETURNING director_id", values);
+      const response = await pool.query(
+        "INSERT INTO director (director_photo, director_name, director_dob, director_social_media, director_role) VALUES ($1, $2, $3, $4, $5) RETURNING director_id", values);
       const directorId = response.rows[0].director_id;
       directorIds.push(directorId); // добавляем идентификатор созданного актера в массив
     }
