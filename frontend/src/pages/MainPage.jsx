@@ -41,7 +41,7 @@ const MainPage = () => {
               <td>{`Дата просмотра: ${new Date(item.viewing_date_film).toLocaleDateString()}`}</td>
               <td>{`Рейтинг: ${item.rating_film}`}</td>
               <td>{`Оценка: ${item.evaluation_film}`}</td>
-              <td>{`Продолжительность фильма: ${item.duration_film.hours} часа ${item.duration_film.minutes} минут`}</td>
+              <td>{item.duration_film && `Продолжительность фильма: ${item.duration_film.hours} часов ${item.duration_film.minutes} минут`}</td>
               <td>{`Возрасное ограничение: ${item.age_restriction_film}`}</td>
               <td>{item.has_translation_film}</td>
               <td>{item.see_Film}</td>
