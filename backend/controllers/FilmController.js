@@ -12,6 +12,37 @@ class FilmController {
       return ErrorUtils.catchError(res, err);
     }
   }
+  
+  static async getSelectGenresForFilms(req, res) {
+    try {
+      // Получение параметров из запроса
+      const { firstFilmId, secondFilmId } = req.query;
+      // Вызов сервиса с передачей параметров
+      const userData = await FilmService.getSelectGenresForFilms(firstFilmId, secondFilmId);
+      console.log("Controller firstFilmId", firstFilmId)
+      console.log("Controller secondFilmId", secondFilmId)
+      if (!userData) {
+        return res.sendStatus(404);
+      }
+      return res.json(userData);
+    } catch (err) {
+      console.error(err);
+      return ErrorUtils.catchError(res, err);
+    }
+  }
+
+  static async getGenresForFilms(req, res) {
+    try {
+      const userData = await FilmService.getGenresForFilms();
+      if (!userData) {
+        return res.sendStatus(404);
+      }
+      return res.json(userData);
+    } catch (err) {
+      console.error(err);
+      return ErrorUtils.catchError(res, err);
+    }
+  }
 
   static async getFilmInfo(req, res) {
     try {

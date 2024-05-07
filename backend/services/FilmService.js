@@ -35,6 +35,17 @@ class FilmService {
         return { filmId, genreIds, actors, directors, actorIds, directorIds };
     }
 
+    static async getGenresForFilms() {
+        const selectedGenres = await FilmRepositorie.getGenresForFilms(firstFilmId, secondFilmId);
+        return selectedGenres;
+    }
+
+    static async getSelectGenresForFilms (firstFilmId, secondFilmId) {
+        const selectedGenres = await FilmRepositorie.getSelectGenresForFilms(firstFilmId, secondFilmId);
+        console.log("Service firstFilmId, secondFilmId", firstFilmId, secondFilmId)
+        return selectedGenres;
+    }
+
     static async getFilmInfo() {
         const films = await FilmRepositorie.getFilmInfo();
         return films;
