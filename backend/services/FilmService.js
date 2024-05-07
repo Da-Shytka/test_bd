@@ -41,9 +41,8 @@ class FilmService {
     }
 
     static async getSelectGenresForFilms (firstFilmId, secondFilmId) {
-        const selectedGenres = await FilmRepositorie.getSelectGenresForFilms(firstFilmId, secondFilmId);
-        console.log("Service firstFilmId, secondFilmId", firstFilmId, secondFilmId)
-        return selectedGenres;
+        const filmNames = await FilmRepositorie.getSelectGenresForFilms(firstFilmId, secondFilmId);
+        return filmNames;
     }
 
     static async getFilmInfo() {

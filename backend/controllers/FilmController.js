@@ -18,13 +18,11 @@ class FilmController {
       // Получение параметров из запроса
       const { firstFilmId, secondFilmId } = req.query;
       // Вызов сервиса с передачей параметров
-      const userData = await FilmService.getSelectGenresForFilms(firstFilmId, secondFilmId);
-      console.log("Controller firstFilmId", firstFilmId)
-      console.log("Controller secondFilmId", secondFilmId)
-      if (!userData) {
+      const filmNames = await FilmService.getSelectGenresForFilms(firstFilmId, secondFilmId);
+      if (!filmNames) {
         return res.sendStatus(404);
       }
-      return res.json(userData);
+      return res.json(filmNames);
     } catch (err) {
       console.error(err);
       return ErrorUtils.catchError(res, err);

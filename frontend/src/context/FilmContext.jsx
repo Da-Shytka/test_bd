@@ -22,26 +22,24 @@ const FilmProvider = ({ children }) => {
       firstFilm: firstFilm ? firstFilm.id_film : null,
       secondFilm: secondFilm ? secondFilm.id_film : null
     }));
-    console.log("!1!", firstFilm)
-    console.log("!2!", secondFilm)
   };
 
   const getSelectedGenres = () => {
     const { firstFilm, secondFilm } = selectedFilms;
-    if (!firstFilm && !secondFilm) return; // Если фильмы не выбраны, ничего не делаем
+    if (!firstFilm && !secondFilm) return Promise.resolve([]); // Если фильмы не выбраны, ничего не делаем
   
     const params = {};
     if (firstFilm) params.firstFilmId = firstFilm;
     if (secondFilm) params.secondFilmId = secondFilm;
-  
-    console.log("!!!", params)
 
-    FilmClient.get("/getSelectGenresForFilms", { params })
+    return FilmClient.get("/getSelectGenresForFilms", { params })
       .then((response) => {
-        setData(response.data);
+        console.log("DDDD", response.data)
+        return response.data.map(film => film.name_film); // Возвращаем массив названий фильмов
       })
       .catch((error) => {
         console.error("Ошибка при получении жанров для выбранных фильмов:", error);
+        return []; // В случае ошибки возвращаем пустой массив
       });
   };
 

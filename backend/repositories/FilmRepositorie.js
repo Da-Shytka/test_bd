@@ -16,8 +16,6 @@ class FilmRepositorie {
   }
 
   static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
-    console.log("Repositories firstFilmId", firstFilmId)
-    console.log("Repositories secondFilmId", secondFilmId)
  
      // Получаем список жанров для двух заданных фильмов
      const response = await pool.query(
@@ -60,13 +58,25 @@ class FilmRepositorie {
      );
  
      // Преобразуем ответ в массив id_film фильма или фильмов
-     const filmIds = response.rows.map(row => row.id_film);
+     const filmIds = response.rows.map(row => row.id_film);     
+     
+      // Формируем строку для подстановки в запрос
+      const placeholders = filmIds.map((id, index) => `$${index + 1}`).join(', ');
 
-     console.log("Repositories response", filmIds);
-     
-     
-     return filmIds;
- }
+      // Запрос на выборку названий фильмов по их ID
+      const query = `
+          SELECT name_film
+          FROM film
+          WHERE id_film IN (${placeholders})
+      `;
+
+      // Выполняем запрос к базе данных
+      const respo = await pool.query(query, filmIds);
+
+      // Преобразуем ответ в массив названий фильмов
+      const filmNames = respo.rows.map(row => row.name_film);
+      return filmNames;
+  }
 
   static async getFilmInfo() {
     const response = await pool.query("SELECT * FROM film WHERE see_film = true");
