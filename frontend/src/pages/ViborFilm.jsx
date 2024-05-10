@@ -69,7 +69,7 @@ const MainPage = () => {
 
   useEffect(() => {
     getSelectedGenres()
-  }, []);
+  }, [getSelectedGenres]);
 
   const handleGenerateFilms = () => {
     // Фильтруем фильмы по выбранным жанрам
