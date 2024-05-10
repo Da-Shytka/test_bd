@@ -32,12 +32,11 @@ const FilmProvider = ({ children }) => {
     if (firstFilm) params.firstFilmId = firstFilm;
     if (secondFilm) params.secondFilmId = secondFilm;
 
-    return FilmClient.get("/getSelectGenresForFilms", { params })
+    FilmClient.get("/getSelectGenresForFilms", { params })
       .then( async (response) => {
         const viborFilm = response.data;
-        console.log("DDDD", viborFilm);
+        // console.log("DDDD", viborFilm);
         setData(viborFilm);
-        return viborFilm;
       })
       .catch((error) => {
         console.error(error);

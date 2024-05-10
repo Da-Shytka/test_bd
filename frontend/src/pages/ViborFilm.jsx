@@ -12,14 +12,7 @@ const MainPage = () => {
   const [selectedFilms, setSelectedFilms] = useState([]);
 
 
-  useEffect(() => {
-    getSelectedGenres()
-  }, []);
 
-  const handleGenerateFilms = () => {
-    // Фильтруем фильмы по выбранным жанрам
-    setSelectedFilms(data); // Сохраняем отфильтрованные фильмы в состояние
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +67,16 @@ const MainPage = () => {
     updateSelectedFilms(selectedFirstFilm, secondFilm);
   };
 
+  useEffect(() => {
+    getSelectedGenres()
+  }, []);
+
+  const handleGenerateFilms = () => {
+    // Фильтруем фильмы по выбранным жанрам
+    setSelectedFilms(data); // Сохраняем отфильтрованные фильмы в состояние
+  };
+
+
   return (
     <>
       <h1>Выбор фильмов</h1>
@@ -126,7 +129,7 @@ const MainPage = () => {
         <h2>Сгенерированные фильмы:</h2>
         <ul>
           {selectedFilms.map((film, index) => (
-            <li key={index}>{film.name_film}</li>
+            <li key={index}>{film}</li>
           ))}
         </ul>
     </>
