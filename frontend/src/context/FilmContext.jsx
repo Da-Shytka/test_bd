@@ -33,13 +33,14 @@ const FilmProvider = ({ children }) => {
     if (secondFilm) params.secondFilmId = secondFilm;
 
     return FilmClient.get("/getSelectGenresForFilms", { params })
-      .then((response) => {
-        console.log("DDDD", response.data)
-        return response.data.map(film => film.name_film); // Возвращаем массив названий фильмов
+      .then( async (response) => {
+        const viborFilm = response.data;
+        console.log("DDDD", viborFilm);
+        setData(viborFilm);
+        return viborFilm;
       })
       .catch((error) => {
-        console.error("Ошибка при получении жанров для выбранных фильмов:", error);
-        return []; // В случае ошибки возвращаем пустой массив
+        console.error(error);
       });
   };
 

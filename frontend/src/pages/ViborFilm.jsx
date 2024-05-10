@@ -2,26 +2,35 @@ import React, { useEffect, useContext, useState } from 'react';
 import { FilmContext } from "../context/FilmContext";
 
 const MainPage = () => {
-  const { handleFilmInfoAll, data, updateSelectedFilms, getSelectedGenres } = useContext(FilmContext); // Извлекаем функцию updateSelectedFilms из контекста
+  const { getSelectedGenres, data, updateSelectedFilms } = useContext(FilmContext); // Извлекаем функцию updateSelectedFilms из контекста
   const [filteredFirstData, setFilteredFirstData] = useState([]);
   const [filteredSecondData, setFilteredSecondData] = useState([]);
   const [firstSearchTerm, setFirstSearchTerm] = useState("");
   const [secondSearchTerm, setSecondSearchTerm] = useState("");
   const [selectedFirstFilm, setSelectedFirstFilm] = useState(null); // Состояние для хранения выбранного первого фильма
   const [selectedSecondFilm, setSelectedSecondFilm] = useState(null); // Состояние для хранения выбранного второго фильма
-  const [randomFilm, setRandomFilm] = useState(null); // Состояние для хранения случайно выбранного фильма
+  const [selectedFilms, setSelectedFilms] = useState([]);
+
+
+  useEffect(() => {
+    getSelectedGenres()
+  }, []);
+
+  const handleGenerateFilms = () => {
+    // Фильтруем фильмы по выбранным жанрам
+    setSelectedFilms(data); // Сохраняем отфильтрованные фильмы в состояние
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await handleFilmInfoAll();
+        await getSelectedGenres();
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }
     };
-
     fetchData();
-  }, [handleFilmInfoAll]);
+  }, [getSelectedGenres]);
 
   useEffect(() => {
     if (!firstSearchTerm) {
@@ -63,16 +72,6 @@ const MainPage = () => {
     setSelectedSecondFilm(secondFilm);
     // Вызываем функцию updateSelectedFilms для обновления состояния выбранных фильмов
     updateSelectedFilms(selectedFirstFilm, secondFilm);
-  };
-
-  const handleGenerateFilm = () => {
-
-    // После обновления выбранных фильмов вызываем функцию getSelectedGenres
-    getSelectedGenres();
-
-    const randomIndex = Math.floor(Math.random() * data.length);
-    const randomFilm = data[randomIndex];
-    setRandomFilm(randomFilm);
   };
 
   return (
@@ -122,13 +121,14 @@ const MainPage = () => {
           <img src={selectedSecondFilm.photo_film} alt={`Фото ${selectedSecondFilm.name_film}`} />
         </div>
       )}
-       <button onClick={handleGenerateFilm}>Сгенерировать</button>
-        {randomFilm && (
-        <div>
-          <h2>Случайный фильм: {randomFilm.name_film}</h2>
-          <img src={randomFilm.photo_film} alt={`Фото ${randomFilm.name_film}`} />
-        </div>
-      )}
+       <h1>Выбор фильмов</h1>
+        <button onClick={handleGenerateFilms}>Сгенерировать</button>
+        <h2>Сгенерированные фильмы:</h2>
+        <ul>
+          {selectedFilms.map((film, index) => (
+            <li key={index}>{film.name_film}</li>
+          ))}
+        </ul>
     </>
   );
 };
