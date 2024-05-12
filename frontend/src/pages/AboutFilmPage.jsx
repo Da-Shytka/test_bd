@@ -7,24 +7,24 @@ const AboutFilmPage = () => {
     const { data } = useContext(FilmContext);
     const film = data.find(item => item.id_film === parseInt(id));
 
-     return (
-        <table>
-        <tbody>
-            <tr>
-                <td>{film.name_film}</td>
-                <td><img src={film.photo_film} alt={`Фото ${film.name_film}`} /></td>
-                <td>{`Год: ${film.year_film}`}</td>
-                <td>{`Страна: ${film.country_film}`}</td>
-                <td>{`Дата просмотра: ${new Date(film.viewing_date_film).toLocaleDateString()}`}</td>
-                <td>{`Рейтинг: ${film.rating_film}`}</td>
-                <td>{`Оценка: ${film.evaluation_film}`}</td>
-                <td>{film.duration_film && `Продолжительность фильма: ${film.duration_film.hours} часов ${film.duration_film.minutes} минут`}</td>
-                <td>{`Возрасное ограничение: ${film.age_restriction_film}`}</td>
-                <td>{film.has_translation_film}</td>
-                <td>{film.see_Film}</td>
-            </tr>
-        </tbody>
-    </table>
+    return (
+        <div className="film-info-container">
+            <h1>{film.name_film}</h1>
+            <div className="film-details">
+                <img src={film.photo_film} alt={`Фото ${film.name_film}`} />
+                <div className="details">
+                    <p><span className="important">Год:</span> {film.year_film}</p>
+                    <p><span className="important">Страна:</span> {film.country_film}</p>
+                    <p><span className="important">Дата просмотра:</span> {new Date(film.viewing_date_film).toLocaleDateString()}</p>
+                    <p><span className="important">Рейтинг:</span> {film.rating_film}</p>
+                    <p><span className="important">Оценка:</span> {film.evaluation_film}</p>
+                    {film.duration_film && <p><span className="important">Продолжительность фильма:</span> {film.duration_film.hours} часов {film.duration_film.minutes} минут</p>}
+                    <p><span className="important">Возрастное ограничение:</span> {film.age_restriction_film}</p>
+                    <p><span className="important">Есть перевод:</span> {film.has_translation_film ? 'Да' : 'Нет'}</p>
+                    <p><span className="important">Просмотрен:</span> {film.see_Film ? 'Да' : 'Нет'}</p>
+                </div>
+            </div>
+        </div>
     );
 };
 

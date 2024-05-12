@@ -251,3 +251,29 @@ input[type="number"]::placeholder {
 }
 
 /* КАЖДЫЙ ФИЛЬМ ОТДЕЛЬНО */
+.film-info-container {
+    padding: 20px;
+}
+
+.film-info-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.film-details {
+    display: flex;
+}
+
+.film-details img {
+    width: 300px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.details p {
+    margin-bottom: 10px;
+}
+
+.important {
+    font-weight: bold;
+}
