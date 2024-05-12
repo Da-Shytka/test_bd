@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage";
 import MyCollectionFilmsPage from "./pages/MyCollectionFilmsPage";
 import FilmPage from "./pages/FilmPage";
 import ViborFilm from "./pages/ViborFilm";
+import AboutFilmPage from './pages/AboutFilmPage';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "viborFilm",
     element: <ViborFilm />,
+  },
+  {
+    path: "/film/:id",
+    element: <AboutFilmPage />,
   },
 ]);
 

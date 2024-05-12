@@ -75,6 +75,8 @@ const MainPage = () => {
     // Фильтруем фильмы по выбранным жанрам
     setSelectedFilms(data); // Сохраняем отфильтрованные фильмы в состояние
   };
+  console.log("data", data)
+  console.log("selectedFilms", selectedFilms)
 
 
   return (
@@ -129,8 +131,16 @@ const MainPage = () => {
         <h2>Сгенерированные фильмы:</h2>
         <ul>
           {selectedFilms.map((film, index) => (
-            <li key={index}>{film}</li>
+            <>
+             <li key={index}>
+              <div>
+                <h3>{film.name}</h3>
+                <img src={film.photoUrl} alt={film.name} />
+              </div>
+            </li>
+            </>
           ))}
+
         </ul>
     </>
   );

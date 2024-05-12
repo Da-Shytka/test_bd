@@ -65,7 +65,7 @@ class FilmRepositorie {
 
       // Запрос на выборку названий фильмов по их ID
       const query = `
-          SELECT name_film
+          SELECT name_film, photo_film
           FROM film
           WHERE id_film IN (${placeholders})
       `;
@@ -74,8 +74,8 @@ class FilmRepositorie {
       const respo = await pool.query(query, filmIds);
 
       // Преобразуем ответ в массив названий фильмов
-      const filmNames = respo.rows.map(row => row.name_film);
-      return filmNames;
+      const films = respo.rows.map(row => ({ name: row.name_film, photoUrl: row.photo_film }));
+      return films;
   }
 
   static async getFilmInfo() {

@@ -33,9 +33,8 @@ const FilmProvider = ({ children }) => {
     if (secondFilm) params.secondFilmId = secondFilm;
 
     FilmClient.get("/getSelectGenresForFilms", { params })
-      .then( async (response) => {
+      .then((response) => {
         const viborFilm = response.data;
-        // console.log("DDDD", viborFilm);
         setData(viborFilm);
       })
       .catch((error) => {
@@ -102,6 +101,8 @@ const FilmProvider = ({ children }) => {
         console.error(error);
       });
   };
+
+  
 
   return (
       <FilmContext.Provider
