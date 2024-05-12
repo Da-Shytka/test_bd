@@ -23,45 +23,41 @@ const MainPage = () => {
   };
 
   return (
-    <>
-      <h1>Коллекция фильмов</h1>
-      <Link to="/viborFilm">
-        <button>Выбрать фильм</button>
-      </Link>
-      <Link to="/collection">
-        <button>Моя коллекция фильмов</button>
-      </Link>
+    <div className="container">
+      <h1>КиноПоиск 2.0</h1>
+      <div className="buttons-container">
+        <Link to="/viborFilm">
+          <button>Подбор фильма</button>
+        </Link>
+        <Link to="/collection">
+          <button>Мои просмотры</button>
+        </Link>
+      </div>
 
-      <h1>Предложенные фильмы:</h1>
       <input
         type="text"
         placeholder="Поиск фильма"
         value={searchQuery}
         onChange={handleSearchInputChange}
       />
-      <div>
-        <table>
-          <tbody>
-            {data && data.length > 0 && data
-              .filter(item => 
-                item.name_film.toLowerCase().includes(searchQuery.toLowerCase())
-              )
-              .map((item, index) => (
-                <tr key={`${item.id_film}-${index}`}>
-                <td>
-                  <Link to={`/film/${item.id_film}`}>
-                    <img src={item.photo_film} alt={`Фото ${item.name_film}`} />
-                  </Link>
-                  <Link to={`/film/${item.id_film}`}>
-                    <h3>{item.name_film}</h3>
-                  </Link>
-                </td>
-              </tr> 
-              ))}
-          </tbody>
-        </table>
+      <div className="film-container">
+        {data && data.length > 0 && data
+          .filter(item => 
+            item.name_film.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+          .map((item, index) => (
+            <div className="film-item" key={`${item.id_film}-${index}`}>
+              <Link to={`/film/${item.id_film}`}>
+                <img src={item.photo_film} alt={`Фото ${item.name_film}`} />
+              </Link>
+              <Link to={`/film/${item.id_film}`}>
+                <h2>{item.name_film}</h2>
+                <h5>{item.year_film}, {item.country_film}</h5>
+              </Link>
+            </div> 
+          ))}
       </div>
-    </>
+    </div>
   );
 };
 

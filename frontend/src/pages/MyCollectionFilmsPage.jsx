@@ -24,12 +24,13 @@ const MainPage = () => {
 
   return (
     <>
-      <h1>Моя коллекция фильмов</h1>
-      <Link to="/film">
-        <button>Добавить фильм</button>
-      </Link>
-
-      <h1>Просмотренные фильмы:</h1>
+    <div className="container">
+      <h1>История просмотров</h1>
+      <div className="buttons-container">
+        <Link to="/film">
+          <button>Добавить фильм</button>
+        </Link>
+      </div>
       <input
         type="text"
         placeholder="Поиск фильма"
@@ -46,29 +47,38 @@ const MainPage = () => {
               .map((item, index) => (
                 <tr key={`${item.id_film}-${index}`}>
                   <td>
-                    <Link to={`/film/${item.id_film}`}>
-                      {item.name_film}
-                    </Link>
+                    <tr>
+                      <Link to={`/film/${item.id_film}`}>
+                        <img src={item.photo_film} alt={`Фото ${item.name_film}`} />
+                      </Link>
+                    </tr>
                   </td>
                   <td>
-                    <Link to={`/film/${item.id_film}`}>
-                      <img src={item.photo_film} alt={`Фото ${item.name_film}`} />
-                    </Link>
+                   <tr>
+                      <Link to={`/film/${item.id_film}`}>
+                        <h2>{`${item.name_film}, ${item.age_restriction_film}+`}</h2>
+                      </Link>
+                    </tr>
+                    <tr>{`${item.country_film}, ${item.year_film}`}</tr>
+                    <tr>{`Просмотрено: ${new Date(item.viewing_date_film).toLocaleDateString()}`}</tr>
+                    <tr>{`Длительность: ${item.duration_film && `${item.duration_film.hours} часов ${item.duration_film.minutes} минут`}`}</tr>
+                    <tr>{`Рейтинг: ${item.rating_film}`}</tr>
+                    <tr>{`Оценка: ${item.evaluation_film}`}</tr>
                   </td>
-                  <td>{`Год: ${item.year_film}`}</td>
-                  <td>{`Страна: ${item.country_film}`}</td>
-                  <td>{`Дата просмотра: ${new Date(item.viewing_date_film).toLocaleDateString()}`}</td>
-                  <td>{`Рейтинг: ${item.rating_film}`}</td>
-                  <td>{`Оценка: ${item.evaluation_film}`}</td>
-                  <td>{item.duration_film && `Продолжительность фильма: ${item.duration_film.hours} часов ${item.duration_film.minutes} минут`}</td>
-                  <td>{`Возрасное ограничение: ${item.age_restriction_film}`}</td>
-                  <td>{item.has_translation_film}</td>
-                  <td>{item.see_Film}</td>
+                  <td>
+                    <tr>{`ЖАНРЫ`}</tr>
+                    <tr>{`КРАТКОЕ ОПИСАНИЕ`}</tr>
+                  </td>
+                  <td>
+                    <tr>{`АКТЕРЫ`}</tr>
+                    <tr>{`РЕЖИССЕРЫ, СЦЕНАРИСТЫ`}</tr>
+                  </td>
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
+    </div>
     </>
   );
 };

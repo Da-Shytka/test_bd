@@ -135,63 +135,52 @@ const FilmPage = () => {
 
   return (
     <>
-      <h1>Фильм</h1>
+    <div className="container">
+      <h1>Добавление фильма</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Название фильма:
           <input type="text" value={nameFilm} onChange={(e) => setNameFilm(e.target.value)} />
         </label>
-        <br />
         <label>
           Год выпуска:
           <input type="number" value={yearFilm} onChange={(e) => setYearFilm(e.target.value)} />
         </label>
-        <br />
         <label>
           Страна:
           <input type="text" value={countryFilm} onChange={(e) => setCountryFilm(e.target.value)} />
         </label>
-        <br />
         <label>
           Дата просмотра:
           <input type="date" value={viewingDateFilm} onChange={(e) => setViewingDateFilm(e.target.value)} />
         </label>
-        <br />
         <label>
           Рейтинг:
           <input type="number" value={ratingFilm} onChange={(e) => setRatingFilm(e.target.value)} />
         </label>
-        <br />
         <label>
           Оценка:
           <input type="number" value={evaluationFilm} onChange={(e) => setEvaluationFilm(e.target.value)} />
         </label>
-        <br />
         <label>
           Продолжительность:
           <input type="text" value={durationFilm} onChange={(e) => setDurationFilm(e.target.value)} />
         </label>
-        <br />
         <label>
           Возрастное ограничение:
           <input type="number" value={ageRestrictionFilm} onChange={(e) => setAgeRestrictionFilm(e.target.value)} />
         </label>
-        <br />
-        <label>
-          Есть перевод:
-          <input type="checkbox" checked={hasTranslationFilm} onChange={(e) => setHasTranslationFilm(e.target.checked)} />
-        </label>
-        <br />
         <label>
           Ссылка на фото:
           <input type="photo" value={photoFilm} onChange={(e) => setPhotoFilm(e.target.value)} />
         </label>
-        <br />
-        <br />
+        <label>
+          Есть перевод:
+          <input type="checkbox" checked={hasTranslationFilm} onChange={(e) => setHasTranslationFilm(e.target.checked)} />
+        </label>
         <label>
           Жанры:
         </label>
-        <br />
         {data && data.map((item, index) => (
           <label key={`${item.name}-${index}`}>
             <input
@@ -203,13 +192,8 @@ const FilmPage = () => {
             {item.name}
           </label>
         ))}
-        <br />
-        <br />
-        {/* Кнопка для добавления нового актера */}
-        <button type="button" onClick={addActor}>Добавить актера</button>
-        {/* Поля ввода для каждого актера */}
         {actors.map((actor, index) => (
-          <div key={index}>
+          <div key={index} className="person-card">
             <label>
               Фото актера:
               <input type="text" value={actor.photo} onChange={(e) => {
@@ -218,7 +202,6 @@ const FilmPage = () => {
                 setActors(updatedActors);
               }} />
             </label>
-            <br />
             <label>
               Имя актера:
               <input type="text" value={actor.name} onChange={(e) => {
@@ -227,7 +210,6 @@ const FilmPage = () => {
                 setActors(updatedActors);
               }} />
             </label>
-            <br />
             <label>
               Дата рождения актера:
               <input type="date" value={actor.year} onChange={(e) => {
@@ -236,7 +218,6 @@ const FilmPage = () => {
                 setActors(updatedActors);
               }} />
             </label>
-            <br />
             <label>
               Ссылка для связи с ним:
               <input type="text" value={actor.link} onChange={(e) => {
@@ -245,18 +226,13 @@ const FilmPage = () => {
                 setActors(updatedActors);
               }} />
             </label>
-            <br />
-            {/* Кнопка для удаления актера */}
-            <button type="button" onClick={() => removeActor(index)}>Удалить</button>
+            <div className="buttons-container">
+              <button type="button" onClick={() => removeActor(index)}>Удалить</button>
+            </div>
           </div>
         ))}
-        <br />
-        <br />
-        {/* Кнопка для добавления нового режиссера */}
-        <button type="button" onClick={addDirector}>Добавить человека по фильму</button>
-        {/* Поля ввода для каждого режиссера */}
         {directors.map((director, index) => (
-          <div key={index}>
+          <div key={index} className="person-card">
             <label>
               Фото:
               <input type="text" value={director.photo} onChange={(e) => {
@@ -265,7 +241,6 @@ const FilmPage = () => {
                 setDirectors(updatedDirectors);
               }} />
             </label>
-            <br />
             <label>
               Имя:
               <input type="text" value={director.name} onChange={(e) => {
@@ -274,7 +249,6 @@ const FilmPage = () => {
                 setDirectors(updatedDirectors);
               }} />
             </label>
-            <br />
             <label>
               Дата рождения:
               <input type="date" value={director.year} onChange={(e) => {
@@ -283,7 +257,6 @@ const FilmPage = () => {
                 setDirectors(updatedDirectors);
               }} />
             </label>
-            <br />
             <label>
               Ссылка для связи с ним:
               <input type="text" value={director.link} onChange={(e) => {
@@ -292,7 +265,6 @@ const FilmPage = () => {
                 setDirectors(updatedDirectors);
               }} />
             </label>
-            <br />
             <label>
               Кто:
               <select value={director.role} onChange={(e) => {
@@ -309,16 +281,23 @@ const FilmPage = () => {
                 <option value="Монтаж">Монтаж</option>
               </select>
             </label>
-            <br />
-            {/* Кнопка для удаления режиссера */}
-            <button type="button" onClick={() => removeDirector(index)}>Удалить</button>
+            <div className="buttons-container">
+              <button type="button" onClick={() => removeDirector(index)}>Удалить</button>
+            </div>
           </div>
         ))}
-        <br />
-        <br />
-        <button type="submit">Сохранить</button>
+        <div className="buttons-container">
+          <button type="button" onClick={addActor}>Добавить актера</button>
+        </div>
+        <div className="buttons-container">
+          <button type="button" onClick={addDirector}>Добавить человека по фильму</button>
+        </div>
+        <div className="buttons-container">
+          <button type="submit">Сохранить</button>
+        </div>
+        
       </form>
-      
+      </div>
     </>
   );
 };
