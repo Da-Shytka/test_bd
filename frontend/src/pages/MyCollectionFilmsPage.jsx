@@ -36,13 +36,14 @@ const MainPage = () => {
     setSearchQuery(e.target.value);
   };
 
-  console.log(directorsData)
-
   return (
     <>
     <div className="container">
       <h1>История просмотров</h1>
       <div className="buttons-container">
+        <Link to="/">
+          <button>Назад</button>
+        </Link>
         <Link to="/film">
           <button>Добавить фильм</button>
         </Link>
@@ -54,48 +55,57 @@ const MainPage = () => {
         onChange={handleSearchInputChange}
       />
       <div className="table-container">
-        <table className="modern-table">
+      <table className="modern-table">
           <tbody>
             {data && data.length > 0 && data
               .filter(item => 
                 item.name_film.toLowerCase().includes(searchQuery.toLowerCase())
               )
               .map((item, index) => (
-                <tr key={`${item.id_film}-${index}`}>
+                <tr key={item.id_film}>
                   <td>
-                    <tr>
-                      <Link to={`/film/${item.id_film}`}>
-                        <img src={item.photo_film} alt={`Фото ${item.name_film}`} />
-                      </Link>
-                    </tr>
+                    <Link to={`/film/${item.id_film}`}>
+                      <img src={item.photo_film} alt={`Фото ${item.name_film}`} />
+                    </Link>
                   </td>
                   <td>
-                   <tr>
-                      <Link to={`/film/${item.id_film}`}>
-                        <h2>{`${item.name_film}, ${item.age_restriction_film}+`}</h2>
-                      </Link>
-                    </tr>
-                    <tr>{`${item.country_film}, ${item.year_film}`}</tr>
-                    <tr>{genresData[index] && genresData[index].length > 0 ? genresData[index].map(genre => genre).join(', ') : ''}</tr>
-                    <tr>{`Рейтинг: ${item.rating_film}`}</tr>
+                    <Link to={`/film/${item.id_film}`}>
+                      <h2>{`${item.name_film}, ${item.age_restriction_film}+`}</h2>
+                    </Link>
+                    <div>{`${item.country_film}, ${item.year_film}`}</div>
+                    <div>{genresData[index] && genresData[index].length > 0 ? genresData[index].join(', ') : ''}</div>
+                    <div>{`Рейтинг: ${item.rating_film}`}</div>
                   </td>
                   <td>
-                    <tr>{`Просмотрено: ${new Date(item.viewing_date_film).toLocaleDateString()}`}</tr>
-                    <tr>{`Длительность: ${item.duration_film && `${item.duration_film.hours} часов ${item.duration_film.minutes} минут`}`}</tr>
-                    <tr>{`Оценка: ${item.evaluation_film}`}</tr>
-                    {/* <tr>{`КРАТКОЕ ОПИСАНИЕ`}</tr> */}
+                    <div>{`Просмотрено: ${new Date(item.viewing_date_film).toLocaleDateString()}`}</div>
+                    <div>{`Длительность: ${item.duration_film && `${item.duration_film.hours} часов ${item.duration_film.minutes} минут`}`}</div>
+                    <div>{`Оценка: ${item.evaluation_film}`}</div>
                   </td>
                   <td>
-                    <tr>{actorsData[index] && actorsData[index].length > 0 ? actorsData[index].map(actor => actor).join(', ') : ''}</tr>
-                    <tr>
-                      {directorsData[index] && directorsData[index].length > 0 ? 
-                        directorsData[index].map(director => (
-                            <>
-                            {director.director_name} - {director.director_role}
-                            <br/>
-                            </>)) : <td></td>
-                      }
-                    </tr>
+                  <div>
+                    {actorsData[index] && actorsData[index].length > 0 ? (
+                      <>
+                        <div>Актеры:</div>
+                        <div>{actorsData[index].join(', ')}</div>
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                  <div>
+                    {directorsData[index] && directorsData[index].length > 0 ? (
+                      <>
+                        <div>Команда по фильму:</div>
+                        {directorsData[index].map(director => (
+                          <div key={`${director.director_name}-${director.director_role}`}>
+                            {director.director_role} - {director.director_name}
+                          </div>
+                        ))}
+                      </>
+                    ) : (
+                      null
+                    )}
+                  </div>
                   </td>
                 </tr>
               ))}

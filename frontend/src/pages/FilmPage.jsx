@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useForm } from "react-hook-form";
 import { FilmContext } from "../context/FilmContext";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const FilmPage = () => {
   // Состояния для хранения данных о фильме
@@ -109,9 +110,14 @@ const FilmPage = () => {
     setDirectors(updatedDirectors);
   };
 
-  // Функция вызывается при отправке формы
   const onSubmit = async (event) => {
-
+    // Проверяем, заполнены ли какие-либо поля
+    if (!nameFilm && !yearFilm && !countryFilm && !viewingDateFilm && !ratingFilm && !evaluationFilm && !durationFilm && !ageRestrictionFilm && !photoFilm && selectedGenres.length === 0 && actors.length === 0 && directors.length === 0) {
+      // Если ни одно поле не заполнено, просто переходим на другую страницу
+      navigate(`/`);
+      return; // Завершаем выполнение функции
+    }
+  
     // Создаем массив данных об актерах для отправки
     const actorsData = actors.map(actor => ({
       name: actor.name,
@@ -119,7 +125,7 @@ const FilmPage = () => {
       link: actor.link,
       photo: actor.photo
     }));
-
+  
     // Создаем массив данных о режиссерах для отправки
     const directorsData = directors.map(director => ({
       name: director.name,
@@ -128,7 +134,8 @@ const FilmPage = () => {
       role: director.role,
       photo: director.photo
     }));
-
+  
+    // Отправляем данные в базу
     await handleFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, actors: actorsData, directors: directorsData }, selectedGenres);
     navigate(`/`);
   };
@@ -137,6 +144,11 @@ const FilmPage = () => {
     <>
     <div className="container">
       <h1>Добавление фильма</h1>
+      <div className="buttons-container">
+      <Link to="/">
+          <button>Назад</button>
+        </Link>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Название фильма:
@@ -173,6 +185,7 @@ const FilmPage = () => {
         <label>
           Ссылка на фото:
           <input type="photo" value={photoFilm} onChange={(e) => setPhotoFilm(e.target.value)} />
+
         </label>
         <label>
           Есть перевод:

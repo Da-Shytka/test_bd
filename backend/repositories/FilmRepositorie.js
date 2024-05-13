@@ -15,67 +15,66 @@ class FilmRepositorie {
     return filmId;
   }
 
-  static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
-     // Получаем список жанров для двух заданных фильмов
-     const response = await pool.query(
-       `WITH selected_genres AS (
-           SELECT fg.id_genre
-           FROM film_genre fg
-           WHERE fg.id_film = $1 OR fg.id_film = $2
-       ),
-       film_genre_counts AS (
-           SELECT f.id_film,
-                  COUNT(DISTINCT fg.id_genre) AS genre_matches
-           FROM film f
-           JOIN film_genre fg ON f.id_film = fg.id_film
-           WHERE f.id_film != $1 AND f.id_film != $2
-                 AND fg.id_genre IN (SELECT * FROM selected_genres)
-           GROUP BY f.id_film
-       )
-       SELECT f.id_film
-       FROM film f
-       JOIN film_genre_counts fgc ON f.id_film = fgc.id_film
-       WHERE fgc.genre_matches = (
-           SELECT MAX(genre_matches)
-           FROM film_genre_counts
-       )
-       UNION
-       SELECT f.id_film
-       FROM film f
-       JOIN film_genre_counts fgc ON f.id_film = fgc.id_film
-       WHERE fgc.genre_matches = (
-           SELECT MAX(genre_matches)
-           FROM film_genre_counts
-       )
-       AND NOT EXISTS (
-           SELECT 1
-           FROM film_genre fg
-           WHERE fg.id_film = f.id_film
-                 AND fg.id_genre NOT IN (SELECT * FROM selected_genres)
-       );`,
-       [firstFilmId, secondFilmId]
-     );
- 
-     // Преобразуем ответ в массив id_film фильма или фильмов
-     const filmIds = response.rows.map(row => row.id_film);     
-     
-      // Формируем строку для подстановки в запрос
-      const placeholders = filmIds.map((id, index) => `$${index + 1}`).join(', ');
+static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
+    // Получаем список жанров для двух заданных фильмов
+    const response = await pool.query(
+        `WITH selected_genres AS (
+            SELECT fg.id_genre
+            FROM film_genre fg
+            WHERE fg.id_film = $1 OR fg.id_film = $2
+        ),
+        film_genre_counts AS (
+            SELECT f.id_film,
+                   COUNT(DISTINCT fg.id_genre) AS genre_matches
+            FROM film f
+            JOIN film_genre fg ON f.id_film = fg.id_film
+            WHERE f.id_film != $1 AND f.id_film != $2
+                  AND fg.id_genre IN (SELECT * FROM selected_genres)
+            GROUP BY f.id_film
+        ),
+        max_genre_matches AS (
+            SELECT MAX(genre_matches) AS max_matches
+            FROM film_genre_counts
+        )
+        SELECT f.id_film
+        FROM film f
+        JOIN film_genre_counts fgc ON f.id_film = fgc.id_film
+        WHERE fgc.genre_matches = (SELECT max_matches FROM max_genre_matches)
+        UNION
+        SELECT f.id_film
+        FROM film f
+        JOIN film_genre_counts fgc ON f.id_film = fgc.id_film
+        WHERE fgc.genre_matches = (SELECT max_matches FROM max_genre_matches)
+        AND NOT EXISTS (
+            SELECT 1
+            FROM film_genre fg
+            WHERE fg.id_film = f.id_film
+                  AND fg.id_genre NOT IN (SELECT * FROM selected_genres)
+        );`,
+        [firstFilmId, secondFilmId]
+    );
 
-      // Запрос на выборку названий фильмов по их ID
-      const query = `
-          SELECT name_film, photo_film
-          FROM film
-          WHERE id_film IN (${placeholders})
-      `;
+    // Преобразуем ответ в массив id_film фильма или фильмов
+    const filmIds = response.rows.map(row => row.id_film);
 
-      // Выполняем запрос к базе данных
-      const respo = await pool.query(query, filmIds);
+    // Формируем строку для подстановки в запрос
+    const placeholders = filmIds.map((id, index) => `$${index + 1}`).join(', ');
 
-      // Преобразуем ответ в массив названий фильмов
-      const films = respo.rows.map(row => ({ name: row.name_film, photoUrl: row.photo_film }));
-      return films;
-  }
+    // Запрос на выборку названий фильмов по их ID
+    const query = `
+        SELECT name_film, photo_film
+        FROM film
+        WHERE id_film IN (${placeholders})
+    `;
+
+    // Выполняем запрос к базе данных
+    const respo = await pool.query(query, filmIds);
+
+    // Преобразуем ответ в массив названий фильмов
+    const films = respo.rows.map(row => ({ name: row.name_film, photoUrl: row.photo_film }));
+    return films;
+}
+
 
   static async getFilmInfo() {
     const response = await pool.query("SELECT * FROM film WHERE see_film = true");

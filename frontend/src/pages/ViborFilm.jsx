@@ -42,6 +42,7 @@ const MainPage = () => {
       setFilteredSecondData(filtered);
     }
   }, [data, secondSearchTerm]);
+  
 
   const handleFirstInputChange = (event) => {
     setFirstSearchTerm(event.target.value);
@@ -75,9 +76,6 @@ const MainPage = () => {
     // Фильтруем фильмы по выбранным жанрам
     setSelectedFilms(data); // Сохраняем отфильтрованные фильмы в состояние
   };
-  console.log("data", data)
-  console.log("selectedFilms", selectedFilms)
-
 
   return (
     <>
@@ -129,7 +127,7 @@ const MainPage = () => {
        </div>
        <div className="vibor-btn">
        <div className="buttons-container">
-      <button onClick={handleGenerateFilms}>Сгенерировать</button>
+        <button onClick={handleGenerateFilms}>Сгенерировать</button>
        </div>
         <div className="films-container">
           {selectedFilms.map((film, index) => (

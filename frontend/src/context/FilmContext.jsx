@@ -19,29 +19,29 @@ const FilmProvider = ({ children }) => {
   const updateSelectedFilms = (firstFilm, secondFilm) => {
     setSelectedFilms(prevState => ({
       ...prevState,
-      firstFilm: firstFilm ? firstFilm.id_film : null,
-      secondFilm: secondFilm ? secondFilm.id_film : null
+      firstFilmId: firstFilm ? firstFilm.id_film : null,
+      secondFilmId: secondFilm ? secondFilm.id_film : null
     }));
   };
-
-  const getSelectedGenres = () => {
-    const { firstFilm, secondFilm } = selectedFilms;
-    if (!firstFilm && !secondFilm) return Promise.resolve([]); // Если фильмы не выбраны, ничего не делаем
+  
+  const getSelectedGenres = async () => {
+    const { firstFilmId, secondFilmId } = selectedFilms;
+    if (!firstFilmId && !secondFilmId) return []; // Если фильмы не выбраны, ничего не делаем
   
     const params = {};
-    if (firstFilm) params.firstFilmId = firstFilm;
-    if (secondFilm) params.secondFilmId = secondFilm;
-
-    FilmClient.get("/getSelectGenresForFilms", { params })
-      .then((response) => {
-        const viborFilm = response.data;
-        setData(viborFilm);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (firstFilmId) params.firstFilmId = firstFilmId;
+    if (secondFilmId) params.secondFilmId = secondFilmId;
+  
+    try {
+      const response = await FilmClient.get("/getSelectGenresForFilms", { params });
+      const selectedGenres = response.data;
+      setData(selectedGenres);
+    } catch (error) {
+      console.error("Ошибка при получении выбранных жанров:", error);
+      // Дополнительная обработка ошибки здесь, если это необходимо
+    }
   };
-
+  
   const handleFilm = (filmData, genreData) => {
     FilmClient.post("/films", { ...filmData, genre: genreData })
       .then((response) => {

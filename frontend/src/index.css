@@ -277,3 +277,19 @@ input[type="number"]::placeholder {
 .important {
     font-weight: bold;
 }
+
+
+
+/*  */
+.actor-info-popup {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 9999;
+    /* Укажите желаемое положение всплывающей подсказки */
+    top: 0; /* Например, если вы хотите, чтобы подсказка отображалась сверху */
+    left: 0; /* Или можете указать координаты по своему усмотрению */
+    /* Добавьте другие стили, если необходимо */
+  }
