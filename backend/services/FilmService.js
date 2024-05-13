@@ -35,6 +35,16 @@ class FilmService {
         return { filmId, genreIds, actors, directors, actorIds, directorIds };
     }
 
+    static async getGenresForFilm(filmId) { //Для получения жанров к фильму
+        const selectedGenres = await FilmRepositorie.getGenresForFilmById(filmId);
+        return selectedGenres;
+    }
+
+    static async getActorsForFilm(filmId) { // Для получения имен актеров к фильму
+        const selectedActors = await FilmRepositorie.getActorsForFilmById(filmId);
+        return selectedActors;
+    }
+
     static async getGenresForFilms() {
         const selectedGenres = await FilmRepositorie.getGenresForFilms(firstFilmId, secondFilmId);
         return selectedGenres;

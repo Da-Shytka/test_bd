@@ -1,11 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FilmContext } from "../context/FilmContext";
 
 const AboutFilmPage = () => {
     const { id } = useParams();
-    const { data } = useContext(FilmContext);
-    const film = data.find(item => item.id_film === parseInt(id));
+    const { data, getGenresForFilm, getActorsForFilm } = useContext(FilmContext);
+    const [genresData, setGenresData] = useState([]);
+    const [actorsData, setActorsData] = useState([]);
+    const [film, setFilm] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const filmData = data.find(item => item.id_film === parseInt(id));
+            setFilm(filmData);
+
+            try {
+                const genres = await getGenresForFilm(id);
+                const actors = await getActorsForFilm(id);
+                setGenresData(genres);
+                setActorsData(actors);
+            } catch (error) {
+                console.error('Ошибка загрузки жанров:', error);
+            }
+        };
+
+        fetchData();
+    }, [id, data, getGenresForFilm, getActorsForFilm]);
+    
+    if (!film) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="film-info-container">
@@ -22,6 +46,8 @@ const AboutFilmPage = () => {
                     <p><span className="important">Возрастное ограничение:</span> {film.age_restriction_film}</p>
                     <p><span className="important">Есть перевод:</span> {film.has_translation_film ? 'Да' : 'Нет'}</p>
                     <p><span className="important">Просмотрен:</span> {film.see_Film ? 'Да' : 'Нет'}</p>
+                    <p><span className="important">Жанры:</span> {genresData.length > 0 ? genresData.map(genre => genre).join(', ') : 'Жанры отсутствуют'}</p>
+                    <p><span className="important">Актеры:</span> {actorsData.length > 0 ? actorsData.map(actor => actor).join(', ') : 'Актеры отсутствуют'}</p>
                 </div>
             </div>
         </div>

@@ -2,6 +2,8 @@ const FilmService = require("../services/FilmService");
 const { ErrorUtils } = require("../utils/Errors");
 
 class FilmController {
+
+  //Для получения данных о фильме
   static async film(req, res) {
     const { nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm, genre, actors, directors } = req.body;
     try {
@@ -12,12 +14,40 @@ class FilmController {
       return ErrorUtils.catchError(res, err);
     }
   }
+
+  //Для получения жанров к фильму
+  static async getGenresForFilm(req, res) { 
+    try {
+      const { filmId } = req.params;
+      const userData = await FilmService.getGenresForFilm(filmId);
+      if (!userData) {
+        return res.sendStatus(404);
+      }
+      return res.json(userData);
+    } catch (err) {
+      console.error(err);
+      return ErrorUtils.catchError(res, err);
+    }
+}
+
+  //Для получения актеров к фильму
+  static async getActorsForFilm(req, res) { 
+    try {
+      const { filmId } = req.params;
+      const userData = await FilmService.getActorsForFilm(filmId);
+      if (!userData) {
+        return res.sendStatus(404);
+      }
+      return res.json(userData);
+    } catch (err) {
+      console.error(err);
+      return ErrorUtils.catchError(res, err);
+    }
+}
   
   static async getSelectGenresForFilms(req, res) {
     try {
-      // Получение параметров из запроса
       const { firstFilmId, secondFilmId } = req.query;
-      // Вызов сервиса с передачей параметров
       const filmNames = await FilmService.getSelectGenresForFilms(firstFilmId, secondFilmId);
       if (!filmNames) {
         return res.sendStatus(404);

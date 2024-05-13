@@ -3,20 +3,30 @@ import { FilmContext } from "../context/FilmContext";
 import { Link } from 'react-router-dom';
 
 const MainPage = () => {
-  const { handleFilmInfo, data } = useContext(FilmContext);
+  const { handleFilmInfo, data, getGenresForFilm, getActorsForFilm } = useContext(FilmContext);
   const [searchQuery, setSearchQuery] = useState('');
+  const [genresData, setGenresData] = useState({});
+  const [actorsData, setActorsData] = useState({});
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         await handleFilmInfo();
+        // Получаем данные о жанрах для каждого фильма и сохраняем их
+        const genresPromises = data.map(film => getGenresForFilm(film.id_film));
+        const actorsPromises = data.map(film => getActorsForFilm(film.id_film));
+        const genres = await Promise.all(genresPromises);
+        const actors = await Promise.all(actorsPromises);
+        setGenresData(genres);
+        setActorsData(actors);
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }
     };
 
     fetchData();
-  }, [handleFilmInfo]);
+  }, [handleFilmInfo, data, getGenresForFilm, getActorsForFilm]);
 
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value);
@@ -60,17 +70,17 @@ const MainPage = () => {
                       </Link>
                     </tr>
                     <tr>{`${item.country_film}, ${item.year_film}`}</tr>
+                    <tr>{genresData[index] && genresData[index].length > 0 ? genresData[index].map(genre => genre).join(', ') : ''}</tr>
+                    <tr>{`Рейтинг: ${item.rating_film}`}</tr>
+                  </td>
+                  <td>
                     <tr>{`Просмотрено: ${new Date(item.viewing_date_film).toLocaleDateString()}`}</tr>
                     <tr>{`Длительность: ${item.duration_film && `${item.duration_film.hours} часов ${item.duration_film.minutes} минут`}`}</tr>
-                    <tr>{`Рейтинг: ${item.rating_film}`}</tr>
                     <tr>{`Оценка: ${item.evaluation_film}`}</tr>
+                    {/* <tr>{`КРАТКОЕ ОПИСАНИЕ`}</tr> */}
                   </td>
                   <td>
-                    <tr>{`ЖАНРЫ`}</tr>
-                    <tr>{`КРАТКОЕ ОПИСАНИЕ`}</tr>
-                  </td>
-                  <td>
-                    <tr>{`АКТЕРЫ`}</tr>
+                    <tr>{actorsData[index] && actorsData[index].length > 0 ? actorsData[index].map(actor => actor).join(', ') : ''}</tr>
                     <tr>{`РЕЖИССЕРЫ, СЦЕНАРИСТЫ`}</tr>
                   </td>
                 </tr>

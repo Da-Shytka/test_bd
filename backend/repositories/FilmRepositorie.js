@@ -16,7 +16,6 @@ class FilmRepositorie {
   }
 
   static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
- 
      // Получаем список жанров для двух заданных фильмов
      const response = await pool.query(
        `WITH selected_genres AS (
@@ -136,6 +135,41 @@ class FilmRepositorie {
     );
     return response.rows;
   }
+
+
+   //Для получения жанров к фильму
+  static async getGenresForFilmById(filmId) {
+    try {
+        const response = await pool.query(
+            `SELECT id_genre FROM film_genre WHERE id_film = $1`,
+            [filmId]
+        );
+        const genres = response.rows.map(row => row.id_genre);
+        return genres;
+    } catch (error) {
+        console.error('Error retrieving genres for film:', error);
+        throw error;
+    }
+  }
+
+  // Для получения имен актеров к фильму
+  static async getActorsForFilmById(filmId) {
+    try {
+      const response = await pool.query(
+        `SELECT film_actor.actor_id, actor.actor_name
+         FROM film_actor
+         JOIN actor ON film_actor.actor_id = actor.actor_id
+         WHERE film_actor.film_id = $1`,
+        [filmId]
+      );
+      const actors = response.rows.map(row => (row.actor_name));
+      return actors;
+    } catch (error) {
+      console.error('Error retrieving actors for film:', error);
+      throw error;
+    }
+  }
+  
 
   static async createActor(actors) {
     const actorIds = []; // массив для хранения идентификаторов созданных актеров

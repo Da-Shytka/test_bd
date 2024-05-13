@@ -102,7 +102,26 @@ const FilmProvider = ({ children }) => {
       });
   };
 
-  
+  //Для получения жанров к фильму
+  const getGenresForFilm = async (filmId) => {
+    try {
+        const response = await FilmClient.get(`/genres/${filmId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+  };
+
+ // Для получения имен актеров к фильму
+  const getActorsForFilm = async (filmId) => {
+    try {
+        const response = await FilmClient.get(`/actors/${filmId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+  };
+
 
   return (
       <FilmContext.Provider
@@ -116,7 +135,9 @@ const FilmProvider = ({ children }) => {
           handleFilmInfoAll,
           handleFilm,
           updateSelectedFilms, // Передаем функцию обновления выбранных фильмов через контекст
-          getSelectedGenres
+          getSelectedGenres,
+          getGenresForFilm,
+          getActorsForFilm, 
         }}
       >
         {children}

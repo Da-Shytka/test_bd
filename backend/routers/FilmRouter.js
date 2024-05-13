@@ -10,5 +10,7 @@ router.get("/genres", FilmController.getGenreInfo);
 router.get("/actors", FilmController.getActorInfo);
 router.get("/directors", FilmController.getDirectorInfo);
 router.get("/getSelectGenresForFilms", FilmController.getSelectGenresForFilms);
+router.get("/genres/:filmId", FilmController.getGenresForFilm);
+router.get("/actors/:filmId", FilmController.getActorsForFilm);
 
 module.exports = router;

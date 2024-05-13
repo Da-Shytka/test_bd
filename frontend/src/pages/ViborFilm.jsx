@@ -129,7 +129,7 @@ const MainPage = () => {
        </div>
        <div className="vibor-btn">
        <div className="buttons-container">
-        <button onClick={handleGenerateFilms}>Сгенерировать</button>
+      <button onClick={handleGenerateFilms}>Сгенерировать</button>
        </div>
         <div className="films-container">
           {selectedFilms.map((film, index) => (
