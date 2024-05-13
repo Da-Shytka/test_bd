@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { FilmContext } from "../context/FilmContext";
+import { Link } from 'react-router-dom';
 
 const MainPage = () => {
   const { getSelectedGenres, data, updateSelectedFilms } = useContext(FilmContext); // Извлекаем функцию updateSelectedFilms из контекста
@@ -80,6 +81,14 @@ const MainPage = () => {
   return (
     <>
     <div className="container">
+    <div className="buttons-container">
+      <Link to="/">
+        <button>Назад</button>
+      </Link>
+      <Link >
+        <button onClick={handleGenerateFilms}>Сгенерировать</button>
+      </Link>
+      </div>
     <h1>Выбор фильмов</h1>
       <div className="vibor">
         <div>
@@ -126,9 +135,6 @@ const MainPage = () => {
         </div>
        </div>
        <div className="vibor-btn">
-       <div className="buttons-container">
-        <button onClick={handleGenerateFilms}>Сгенерировать</button>
-       </div>
         <div className="films-container">
           {selectedFilms.map((film, index) => (
             <div key={index} className="film-item">

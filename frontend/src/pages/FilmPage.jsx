@@ -143,12 +143,12 @@ const FilmPage = () => {
   return (
     <>
     <div className="container">
-      <h1>Добавление фильма</h1>
-      <div className="buttons-container">
+    <div className="buttons-container">
       <Link to="/">
           <button>Назад</button>
         </Link>
       </div>
+      <h1>Добавление фильма</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Название фильма:

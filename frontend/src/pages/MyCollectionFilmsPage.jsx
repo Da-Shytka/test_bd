@@ -39,8 +39,7 @@ const MainPage = () => {
   return (
     <>
     <div className="container">
-      <h1>История просмотров</h1>
-      <div className="buttons-container">
+    <div className="buttons-container">
         <Link to="/">
           <button>Назад</button>
         </Link>
@@ -48,6 +47,7 @@ const MainPage = () => {
           <button>Добавить фильм</button>
         </Link>
       </div>
+      <h1>История просмотров</h1>
       <input
         type="text"
         placeholder="Поиск фильма"

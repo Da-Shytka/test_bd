@@ -265,7 +265,7 @@ input[type="number"]::placeholder {
 }
 
 .film-details img {
-    width: 300px;
+    width: 350px;
     height: auto;
     margin-right: 20px;
 }
@@ -279,23 +279,23 @@ input[type="number"]::placeholder {
 }
 
 
-
-/* Всплывающее окно для актеров и режиссеров по фильму */
-/* Общие стили */
+/* ДЛЯ ВСПЛЫВАЮЩЕГО ОКНА */
 .popup-container {
-    position: absolute;
+    /* position: absolute; */
     background-color: #fff;
-    border: 2px solid #333;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ff0084; /* Рамка цвета текста */
+    border-radius: 8px; /* Скругленные углы */
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Мягкая тень */
     z-index: 9999;
-    min-width: 250px;
-    max-width: 300px;
+    min-width: 200px; /* Минимальная ширина */
+    max-width: 250px; /* Максимальная ширина */
+    margin: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Современный шрифт */
 }
 
 .popup-container img {
-    width: 100%;
+    width: 100px;
     height: auto;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -307,7 +307,6 @@ input[type="number"]::placeholder {
     color: #333;
 }
 
-/* Переопределение стилей для ссылок */
 .popup-container a {
     color: #ff0084;
     text-decoration: none;

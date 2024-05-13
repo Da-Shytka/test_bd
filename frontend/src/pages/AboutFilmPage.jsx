@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { FilmContext } from "../context/FilmContext";
 import ActorPopup from './ActorPopup';
 import DirectorPopup from './DirectorPopup';
+import { Link } from 'react-router-dom';
 
 
 const AboutFilmPage = () => {
@@ -59,7 +60,13 @@ const AboutFilmPage = () => {
     }
 
     return (
+        <div className="container">
         <div className="film-info-container">
+            <div className="buttons-container">
+            <Link to="/">
+                <button>Назад</button>
+                </Link>
+            </div>
             <h1>{film.name_film}</h1>
             <div className="film-details">
                 <img src={film.photo_film} alt={`Фото ${film.name_film}`} />
@@ -98,6 +105,7 @@ const AboutFilmPage = () => {
             </div>
             {showActorPopup && <ActorPopup actor={popupActor} />}
             {showDirectorPopup && <DirectorPopup director={popupPerson} />}
+        </div>
         </div>
     );
 };

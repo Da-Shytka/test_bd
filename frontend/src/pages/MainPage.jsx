@@ -24,7 +24,6 @@ const MainPage = () => {
 
   return (
     <div className="container">
-      <h1>КиноПоиск 2.0</h1>
       <div className="buttons-container">
         <Link to="/viborFilm">
           <button>Подбор фильма</button>
@@ -34,6 +33,7 @@ const MainPage = () => {
         </Link>
       </div>
 
+      <h1>КиноПоиск 2.0</h1>
       <input
         type="text"
         placeholder="Поиск фильма"
