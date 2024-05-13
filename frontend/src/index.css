@@ -280,4 +280,40 @@ input[type="number"]::placeholder {
 
 
 
-/* Всплывающее окно для актеров и работников по фильму */
+/* Всплывающее окно для актеров и режиссеров по фильму */
+/* Общие стили */
+.popup-container {
+    position: absolute;
+    background-color: #fff;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    min-width: 250px;
+    max-width: 300px;
+}
+
+.popup-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.popup-container p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Переопределение стилей для ссылок */
+.popup-container a {
+    color: #ff0084;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.popup-container a:hover {
+    text-decoration: underline;
+}
