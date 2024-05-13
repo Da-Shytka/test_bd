@@ -155,13 +155,13 @@ static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
   static async getActorsForFilmById(filmId) {
     try {
       const response = await pool.query(
-        `SELECT film_actor.actor_id, actor.actor_name
+        `SELECT actor.actor_id, actor.actor_name, actor.actor_photo, actor.actor_dob, actor.actor_social_media
          FROM film_actor
          JOIN actor ON film_actor.actor_id = actor.actor_id
          WHERE film_actor.film_id = $1`,
         [filmId]
       );
-      const actors = response.rows.map(row => (row.actor_name));
+      const actors = response.rows;
       return actors;
     } catch (error) {
       console.error('Error retrieving actors for film:', error);
@@ -173,7 +173,7 @@ static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
     static async getDirectorsForFilmById(filmId) {
       try {
         const response = await pool.query(
-          `SELECT director.director_name, director.director_role
+          `SELECT director.director_name, director.director_role, director.director_photo, director.director_dob, director.director_social_media
            FROM director
            JOIN film_director ON director.director_id = film_director.director_id
            WHERE film_director.film_id = $1`,

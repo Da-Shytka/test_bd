@@ -50,7 +50,7 @@ const AboutFilmPage = () => {
                     <p><span className="important">Есть перевод:</span> {film.has_translation_film ? 'Да' : 'Нет'}</p>
                     <p><span className="important">Просмотрен:</span> {film.see_Film ? 'Да' : 'Нет'}</p>
                     <p><span className="important">Жанры:</span> {genresData.length > 0 ? genresData.map(genre => genre).join(', ') : 'Жанры отсутствуют'}</p>
-                    <p><span className="important">Актеры:</span> {actorsData.length > 0 ? actorsData.map(actor => actor).join(', ') : 'Актеры отсутствуют'}</p>
+                    <p><span className="important">Актеры:</span> {actorsData.length > 0 ? actorsData.map(actor => actor.actor_name).join(', ') : 'Актеры отсутствуют'}</p>
                     <p>
                         <span className="important">Люди по фильму:</span> 
                         {directorsData.length > 0 ? directorsData.map(director => `${director.director_name} - ${director.director_role}`).join(', ') : 'Люди по фильму отсутствуют'}

@@ -86,7 +86,7 @@ const MainPage = () => {
                     {actorsData[index] && actorsData[index].length > 0 ? (
                       <>
                         <div>Актеры:</div>
-                        <div>{actorsData[index].join(', ')}</div>
+                        <div>{actorsData[index][0].actor_name}</div>
                       </>
                     ) : (
                       ''
