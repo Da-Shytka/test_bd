@@ -45,6 +45,11 @@ class FilmService {
         return selectedActors;
     }
 
+    static async getDirectorsForFilm(filmId) { // Для получения людей по фильму
+        const selectedDirectors = await FilmRepositorie.getDirectorsForFilmById(filmId);
+        return selectedDirectors;
+    }
+
     static async getGenresForFilms() {
         const selectedGenres = await FilmRepositorie.getGenresForFilms(firstFilmId, secondFilmId);
         return selectedGenres;

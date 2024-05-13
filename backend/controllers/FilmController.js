@@ -43,7 +43,22 @@ class FilmController {
       console.error(err);
       return ErrorUtils.catchError(res, err);
     }
-}
+  }
+
+    //Для получения людей по фильму
+    static async getDirectorsForFilm(req, res) { 
+      try {
+        const { filmId } = req.params;
+        const userData = await FilmService.getDirectorsForFilm(filmId);
+        if (!userData) {
+          return res.sendStatus(404);
+        }
+        return res.json(userData);
+      } catch (err) {
+        console.error(err);
+        return ErrorUtils.catchError(res, err);
+      }
+    }
   
   static async getSelectGenresForFilms(req, res) {
     try {

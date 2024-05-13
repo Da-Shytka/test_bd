@@ -169,6 +169,27 @@ class FilmRepositorie {
       throw error;
     }
   }
+
+    // Для получения людей по к фильму
+    static async getDirectorsForFilmById(filmId) {
+      try {
+        const response = await pool.query(
+          `SELECT director.director_name, director.director_role
+           FROM director
+           JOIN film_director ON director.director_id = film_director.director_id
+           WHERE film_director.film_id = $1`,
+          [filmId]
+        );
+        const directors = response.rows.map(row => ({
+          director_name: row.director_name,
+          director_role: row.director_role
+        }));
+        return directors;
+      } catch (error) {
+        console.error('Error retrieving directors for film:', error);
+        throw error;
+      }
+    }
   
 
   static async createActor(actors) {

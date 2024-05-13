@@ -122,6 +122,16 @@ const FilmProvider = ({ children }) => {
     }
   };
 
+   // Для получения людей по фильму
+   const getDirectorsForFilm = async (filmId) => {
+    try {
+        const response = await FilmClient.get(`/directors/${filmId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+  };
+
 
   return (
       <FilmContext.Provider
@@ -138,6 +148,7 @@ const FilmProvider = ({ children }) => {
           getSelectedGenres,
           getGenresForFilm,
           getActorsForFilm, 
+          getDirectorsForFilm,
         }}
       >
         {children}

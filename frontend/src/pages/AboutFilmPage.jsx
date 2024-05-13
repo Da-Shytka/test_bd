@@ -4,9 +4,10 @@ import { FilmContext } from "../context/FilmContext";
 
 const AboutFilmPage = () => {
     const { id } = useParams();
-    const { data, getGenresForFilm, getActorsForFilm } = useContext(FilmContext);
+    const { data, getGenresForFilm, getActorsForFilm, getDirectorsForFilm } = useContext(FilmContext);
     const [genresData, setGenresData] = useState([]);
     const [actorsData, setActorsData] = useState([]);
+    const [directorsData, setDirectorsData] = useState([]);
     const [film, setFilm] = useState(null);
 
     useEffect(() => {
@@ -17,15 +18,17 @@ const AboutFilmPage = () => {
             try {
                 const genres = await getGenresForFilm(id);
                 const actors = await getActorsForFilm(id);
+                const directors = await getDirectorsForFilm(id);
                 setGenresData(genres);
                 setActorsData(actors);
+                setDirectorsData(directors);
             } catch (error) {
                 console.error('Ошибка загрузки жанров:', error);
             }
         };
 
         fetchData();
-    }, [id, data, getGenresForFilm, getActorsForFilm]);
+    }, [id, data, getGenresForFilm, getActorsForFilm, getDirectorsForFilm]);
     
     if (!film) {
         return <div>Loading...</div>;
@@ -48,6 +51,10 @@ const AboutFilmPage = () => {
                     <p><span className="important">Просмотрен:</span> {film.see_Film ? 'Да' : 'Нет'}</p>
                     <p><span className="important">Жанры:</span> {genresData.length > 0 ? genresData.map(genre => genre).join(', ') : 'Жанры отсутствуют'}</p>
                     <p><span className="important">Актеры:</span> {actorsData.length > 0 ? actorsData.map(actor => actor).join(', ') : 'Актеры отсутствуют'}</p>
+                    <p>
+                        <span className="important">Люди по фильму:</span> 
+                        {directorsData.length > 0 ? directorsData.map(director => `${director.director_name} - ${director.director_role}`).join(', ') : 'Люди по фильму отсутствуют'}
+                    </p>
                 </div>
             </div>
         </div>

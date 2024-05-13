@@ -3,10 +3,11 @@ import { FilmContext } from "../context/FilmContext";
 import { Link } from 'react-router-dom';
 
 const MainPage = () => {
-  const { handleFilmInfo, data, getGenresForFilm, getActorsForFilm } = useContext(FilmContext);
+  const { handleFilmInfo, data, getGenresForFilm, getActorsForFilm, getDirectorsForFilm } = useContext(FilmContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [genresData, setGenresData] = useState({});
   const [actorsData, setActorsData] = useState({});
+  const [directorsData, setDirectorsData] = useState({});
 
 
   useEffect(() => {
@@ -16,21 +17,26 @@ const MainPage = () => {
         // Получаем данные о жанрах для каждого фильма и сохраняем их
         const genresPromises = data.map(film => getGenresForFilm(film.id_film));
         const actorsPromises = data.map(film => getActorsForFilm(film.id_film));
+        const directorsPromises = data.map(film => getDirectorsForFilm(film.id_film));
         const genres = await Promise.all(genresPromises);
         const actors = await Promise.all(actorsPromises);
+        const directors = await Promise.all(directorsPromises);
         setGenresData(genres);
         setActorsData(actors);
+        setDirectorsData(directors);
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }
     };
 
     fetchData();
-  }, [handleFilmInfo, data, getGenresForFilm, getActorsForFilm]);
+  }, [handleFilmInfo, data, getGenresForFilm, getActorsForFilm, getDirectorsForFilm]);
 
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
+  console.log(directorsData)
 
   return (
     <>
@@ -81,7 +87,15 @@ const MainPage = () => {
                   </td>
                   <td>
                     <tr>{actorsData[index] && actorsData[index].length > 0 ? actorsData[index].map(actor => actor).join(', ') : ''}</tr>
-                    <tr>{`РЕЖИССЕРЫ, СЦЕНАРИСТЫ`}</tr>
+                    <tr>
+                      {directorsData[index] && directorsData[index].length > 0 ? 
+                        directorsData[index].map(director => (
+                            <>
+                            {director.director_name} - {director.director_role}
+                            <br/>
+                            </>)) : <td></td>
+                      }
+                    </tr>
                   </td>
                 </tr>
               ))}
