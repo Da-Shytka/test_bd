@@ -1,19 +1,33 @@
 const pool = require('../dataBase');
 
 class FilmRepositorie {
+
+  //Хранимая процедура для создания фильма
   static async createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm }) {
-    const values = [nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm ];
-    // Заменяем пустые значения на null
-    for (let i = 0; i < values.length; i++) {
-      if (values[i] === '') {
-        values[i] = null;
-      }
+    try {
+      const response = await pool.query('CALL create_film($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm]);
+      const filmId = response.rows[0].id_film;
+      return filmId;
+    } catch (error) {
+      console.error('Error creating film:', error);
+      throw error;
     }
-    const response = await pool.query("INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film, see_Film, photo_film) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id_film",
-    values);
-    const filmId = response.rows[0].id_film;
-    return filmId;
   }
+  
+  //заменила на хранимую процедуру
+  // static async createFilm({ nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm }) {
+  //   const values = [nameFilm, yearFilm, countryFilm, viewingDateFilm, ratingFilm, evaluationFilm, durationFilm, ageRestrictionFilm, hasTranslationFilm, seeFilm, photoFilm ];
+  //   // Заменяем пустые значения на null
+  //   for (let i = 0; i < values.length; i++) {
+  //     if (values[i] === '') {
+  //       values[i] = null;
+  //     }
+  //   }
+  //   const response = await pool.query("INSERT INTO film (name_film, year_film, country_film, viewing_date_film, rating_film, evaluation_film, duration_film, age_restriction_film, has_translation_film, see_Film, photo_film) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id_film",
+  //   values);
+  //   const filmId = response.rows[0].id_film;
+  //   return filmId;
+  // }
 
 static async getSelectGenresForFilms(firstFilmId, secondFilmId) {
     // Получаем список жанров для двух заданных фильмов
